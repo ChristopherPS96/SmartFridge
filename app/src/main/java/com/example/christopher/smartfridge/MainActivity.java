@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.christopher.bestands_app.R;
@@ -38,6 +42,27 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             }
         });
         mScannerView = new ZXingScannerView(this);
+    }
+
+    //NUR EINE TESTMETHODE ZUM ZEIGEN WIE FILTER FUNKTIONIEREN
+    private BestandItemAdapter bestandItemAdapter;
+    private ListView test; //NUR EINE TESTVARIABLE
+    private EditText test2; //NUR EINE TESTVARIABLE
+    public void setFilter() {
+        bestandItemAdapter = new BestandItemAdapter(this,R.layout.bestandItemList, null);
+        test.setAdapter(bestandItemAdapter);
+        test2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                MainActivity.this.bestandItemAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
     }
 
     @Override
