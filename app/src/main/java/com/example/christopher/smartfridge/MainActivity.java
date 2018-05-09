@@ -95,10 +95,13 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
     @Override
     public void handleResult(Result rawResult) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        Toast.makeText(this, rawResult.getText() + " " + rawResult.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
-        //////////hier Dialog-Feld zum Bearbeiten des Scanitems (?)//////////
+       // Intent intent = new Intent(this, MainActivity.class);
+        //startActivity(intent);
+        //Toast.makeText(this, rawResult.getText() + " " + rawResult.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
+        //////////hier Dialog-Feld zum Bearbeiten des Scanitems aufrufen(?)//////////
+
+        Intent intentScan = new Intent(this, DialogBuilder.class);
+        startActivityForResult(intentScan, 123);
     }
 
     protected boolean shouldAskPermissions() {      //Quelle: https://stackoverflow.com/questions/8854359/exception-open-failed-eacces-permission-denied-on-android
