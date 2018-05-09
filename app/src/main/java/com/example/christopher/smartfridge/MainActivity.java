@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private ListView test; //NUR EINE TESTVARIABLE
     private EditText test2; //NUR EINE TESTVARIABLE
     public void setFilter() {
-        bestandItemAdapter = new BestandItemAdapter(this,R.layout.bestandItemList, null);
+        bestandItemAdapter = new BestandItemAdapter(this,R.layout.bestand_item_list, null);
         test.setAdapter(bestandItemAdapter);
         test2.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         Toast.makeText(this, rawResult.getText() + " " + rawResult.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
+        //////////hier Dialog-Feld zum Bearbeiten des Scanitems (?)//////////
     }
 
     protected boolean shouldAskPermissions() {      //Quelle: https://stackoverflow.com/questions/8854359/exception-open-failed-eacces-permission-denied-on-android

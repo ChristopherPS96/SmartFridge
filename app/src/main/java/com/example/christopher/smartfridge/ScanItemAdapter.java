@@ -35,7 +35,7 @@ public class ScanItemAdapter extends ArrayAdapter<ScanItem> implements Filterabl
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.scanItemList, null);
+            v = vi.inflate(R.layout.scan_item_list, null);
         }
         ScanItem p = getItem(position);
         if (p != null) {

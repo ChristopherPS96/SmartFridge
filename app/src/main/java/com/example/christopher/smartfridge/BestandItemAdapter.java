@@ -36,7 +36,7 @@ public class BestandItemAdapter extends ArrayAdapter<BestandItem> implements Fil
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.bestandItemList, null);
+            v = vi.inflate(R.layout.bestand_item_list, null);
         }
         BestandItem p = getItem(position);
         if (p != null) {
