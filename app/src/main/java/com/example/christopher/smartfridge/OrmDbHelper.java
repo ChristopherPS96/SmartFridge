@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -48,7 +49,7 @@ public class OrmDbHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public com.j256.ormlite.dao.Dao<ScanItem, Integer> createScanItemDAO() {
+    public Dao<ScanItem, Integer> createScanItemDAO() {
         try {
             return DaoManager.createDao(connectionSource, ScanItem.class);
         } catch (SQLException ex) {
@@ -57,7 +58,7 @@ public class OrmDbHelper extends OrmLiteSqliteOpenHelper {
         return null;
     }
 
-    public com.j256.ormlite.dao.Dao<BestandItem, Integer> createBestandItemDAO() {
+    public Dao<BestandItem, Integer> createBestandItemDAO() {
         try {
             return DaoManager.createDao(connectionSource, BestandItem.class);
         } catch (SQLException ex) {

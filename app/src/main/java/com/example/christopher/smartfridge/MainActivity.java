@@ -98,9 +98,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
        // Intent intent = new Intent(this, MainActivity.class);
         //startActivity(intent);
         //Toast.makeText(this, rawResult.getText() + " " + rawResult.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
-        //////////hier Dialog-Feld zum Bearbeiten des Scanitems aufrufen(?)//////////
 
         Intent intentScan = new Intent(this, DialogBuilder.class);
+        //Barcode mitgeben
+        intentScan.putExtra("barcode", rawResult.getText() + " " + rawResult.getBarcodeFormat().toString());
         startActivityForResult(intentScan, 123);
     }
 
