@@ -14,6 +14,10 @@ public class BestandItem {
     @DatabaseField
     private Date ablaufDatum;
 
+    public BestandItem() {
+
+    }
+
     public BestandItem(ScanItem scanItem, Date ablaufDatum) {
         this.scanItem = scanItem;
         this.ablaufDatum = ablaufDatum;

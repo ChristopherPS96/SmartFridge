@@ -1,5 +1,6 @@
 package com.example.christopher.smartfridge;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -15,115 +17,108 @@ import com.example.christopher.bestands_app.R;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
+import java.sql.Date;
 import java.sql.SQLException;
 
 public class DialogBuilder extends AppCompatActivity {
 
+    final public static int SCANITEM = 0;
+    final public static int SCANITEMEXIST = 1;
+    final public static int BESTANDITEM = 2;
+    final public static int BESTANDITEMEXIST = 3;
+    private  EditText editText = null;
+    private DatePicker datePicker = null;
+    private OrmDataHelper ormDataHelper;
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scan_item_list);
-        final ListView listViewScanItem = findViewById(R.id.listViewScanItems);
-        //wenn ein Eintrag ausgewählt wurde
-        listViewScanItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
-                int index = listViewScanItem.getPositionForView(v);
-                gewaehlterScanItemTitel = listViewScanItem.getItemAtPosition(index).toString();
-            }
-        });
-        DialogScanItem(null);
     }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //Quelle: http://www.androidbegin.com/tutorial/android-ormlite-with-sqlite-database-tutorial/
-    final ScanItem scanItem = new ScanItem();
-    ListView listViewScanItem = findViewById(R.id.listViewScanItems);
-
-    private OrmDbHelper ormDbHelper = null;
-
-    private OrmDbHelper getOrmDbHelper(){
-        if(ormDbHelper == null){
-            ormDbHelper = OpenHelperManager.getHelper(this, OrmDbHelper.class);
-        }
-        return ormDbHelper;
+    public DialogBuilder(Context context) {
+        this.context = context;
+        ormDataHelper = new OrmDataHelper(context);
     }
-
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-
-        if(ormDbHelper != null){
-            OpenHelperManager.releaseHelper();
-            ormDbHelper = null;
-        }
     }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    String gewaehlterScanItemTitel = "";
-    String AenderungTitel;
-    boolean neuerEintrag = false;
-
-
-    //Alert Dialog zum Bearbeiten, löschen und erstellen
-    public void DialogScanItem(View view) {
+    //Alert Dialog zum Bearbeiten, löschen und erstellen (ScanItem/BestandItem kann NULL, wenn nicht vorhanden)
+    public void DialogConstructor(final int id, final ScanItem scanItem, final BestandItem bestandItem) {
         //Alert Dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("ScanItem");       //Titel setzen
-
-        final EditText Eintrag = new EditText(this);   //Edittext zum Dialog hinzufügen
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LinearLayout.LayoutParams layoutparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        Eintrag.setLayoutParams(layoutparams);
-        builder.setView(Eintrag);
-        //wenn bearbeiten
-        if (gewaehlterScanItemTitel.length() > 0) {   //wenn Item aus Liste gewählt wurde -> Daten in EditText zeigen
-            Eintrag.setText(gewaehlterScanItemTitel);
-            neuerEintrag = false;    //kein neuer Eintrag
-        } else {
-            neuerEintrag = true; //neuer Eintrag
+        switch (id) {
+            case SCANITEM:
+                builder.setTitle("ScanItem anlegen");
+                editText = new EditText(context);
+                editText.setLayoutParams(layoutparams);
+                builder.setView(editText);
+                break;
+            case SCANITEMEXIST:
+                builder.setTitle("ScanItem bearbeiten");
+                editText = new EditText(context);
+                editText.setLayoutParams(layoutparams);
+                builder.setView(editText);
+                editText.setText(scanItem.getName());
+                break;
+            case BESTANDITEM:
+                builder.setTitle("BestandItem anlegen");
+                datePicker = new DatePicker(context);
+                datePicker.setLayoutParams(layoutparams);
+                builder.setView(datePicker);
+                break;
+            case BESTANDITEMEXIST:
+                builder.setTitle("BestandItem bearbeiten");
+                datePicker = new DatePicker(context);
+                datePicker.setLayoutParams(layoutparams);
+                builder.setView(datePicker);
+                datePicker.init(bestandItem.getAblaufDatum().getYear(), bestandItem.getAblaufDatum().getMonth(), bestandItem.getAblaufDatum().getDay(), null);
+                break;
         }
+
 
         //OKAY Button
         builder.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                AenderungTitel = Eintrag.getText().toString();
+                switch (id) {
+                    case SCANITEM:
+                        if(editText.getText() != null && editText.getText().toString().length() > 2) {
+                            ormDataHelper.saveScanItem(new ScanItem(scanItem.getBarcode(), editText.getText().toString()));
+                        } else {
+                            Toast.makeText(context, "Eingabe zu kurz!", Toast.LENGTH_LONG).show();
+                            DialogConstructor(SCANITEM, scanItem, bestandItem);
+                        }
 
-                //wenn Name des ScanItems nicht leer und es ein neuer Eintrag ist
-                if (AenderungTitel.length() > 0 && neuerEintrag) {
-
-////////////////////hier zur datenbank hinzufügen  - später extra methode draus machen////////////////
-
-                    //Quelle: http://www.androidbegin.com/tutorial/android-ormlite-with-sqlite-database-tutorial/
-
-                    Intent intent = getIntent();
-                    Bundle bundle = intent.getExtras();
-
-                    if (bundle != null) {
-                        String barcode = (String) bundle.get("barcode");
-                        scanItem.setName(AenderungTitel);
-                        scanItem.setBarcode(barcode);
-                    }
-
-                    try{
-                        final Dao<ScanItem, Integer> scanItemDao = getOrmDbHelper().createScanItemDAO();
-                        scanItemDao.create(scanItem);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                    setResult(RESULT_OK);
-
-                } else if (AenderungTitel.length() <= 0) {      //wenn kein Name angegeben
-                    Toast.makeText(DialogBuilder.this, "Bitte gib vorher was ein.", Toast.LENGTH_SHORT).show();
-                } else if (!neuerEintrag) {      //wenn Update eines bereits vorhandenen ScanItems
-                    UpdateScanItem();
+                        break;
+                    case SCANITEMEXIST:
+                        if(editText.getText() != null && editText.getText().toString().length() > 2) {
+                            ormDataHelper.saveScanItem(new ScanItem(scanItem.getBarcode(), editText.getText().toString()));
+                            ormDataHelper.deleteScanItem(scanItem);
+                        } else {
+                            Toast.makeText(context, "Eingabe zu kurz!", Toast.LENGTH_LONG).show();
+                            DialogConstructor(SCANITEMEXIST, scanItem, bestandItem);
+                        }
+                        break;
+                    case BESTANDITEM:
+                        Date dateTemp = null;
+                        dateTemp.setYear(datePicker.getYear());
+                        dateTemp.setMonth(datePicker.getMonth());
+                        dateTemp.setDate(datePicker.getDayOfMonth());
+                        ormDataHelper.saveBestandItem(new BestandItem(scanItem, dateTemp));
+                        break;
+                    case BESTANDITEMEXIST:
+                        Date date = null;
+                        date.setYear(datePicker.getYear());
+                        date.setMonth(datePicker.getMonth());
+                        date.setDate(datePicker.getDayOfMonth());
+                        ormDataHelper.saveBestandItem(new BestandItem(scanItem, date));
+                        ormDataHelper.deleteBestandItem(bestandItem);
+                        break;
                 }
             }
         });
@@ -137,20 +132,19 @@ public class DialogBuilder extends AppCompatActivity {
         });
 
         //gewählten Eintrag löschen
-        builder.setNeutralButton("Löschen", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                //////hier in DB löschen//////
-            }
-        });
+        if(id == SCANITEMEXIST || id == BESTANDITEMEXIST) {
+            builder.setNeutralButton("Löschen", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if(id == SCANITEMEXIST) {
+                        ormDataHelper.deleteScanItem(scanItem);
+                    }
+                    if(id == BESTANDITEMEXIST) {
+                        ormDataHelper.deleteBestandItem(bestandItem);
+                    }
+                }
+            });
+        }
         builder.show();     //zeigen
     }
-
-    public void UpdateScanItem() {
-        //////hier DB updaten//////
-    }
-
-    //////////////////////hier Zeugs aus DB holen und in Listview schmeißen//////////////////
-
 }
