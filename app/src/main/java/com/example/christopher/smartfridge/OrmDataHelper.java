@@ -6,16 +6,19 @@ import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class OrmDataHelper {
 
     private Dao<ScanItem, Integer> scanItemDAO;
     private Dao<BestandItem, Integer> bestandItemDAO;
+    private Dao<SettingsItem, Integer> settingsItemsDAO;
 
     public OrmDataHelper(Context context) {
         OrmDbHelper ormDbHelper = new OrmDbHelper(context);
          scanItemDAO = ormDbHelper.createScanItemDAO();
          bestandItemDAO = ormDbHelper.createBestandItemDAO();
+         settingsItemsDAO = ormDbHelper.createSettingItemDAO();
     }
 
     public void saveScanItem(ScanItem scanItem) {
@@ -68,5 +71,31 @@ public class OrmDataHelper {
             ex.getMessage();
         }
         return temp;
+    }
+
+    public void saveSettingItem(SettingsItem settingsItem) {
+        try {
+            settingsItemsDAO.create(settingsItem);
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+    }
+
+    public void deleteSettingItem(SettingsItem settingsItem) {
+        try {
+            settingsItemsDAO.delete(settingsItem);
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+    }
+
+    public SettingsItem getSettingItem() {
+        ArrayList<SettingsItem> temp = null;
+        try {
+            temp = new ArrayList<>(settingsItemsDAO.queryForAll());
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+        return temp.get(0);
     }
 }

@@ -32,6 +32,7 @@ public class OrmDbHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTableIfNotExists(connectionSource, ScanItem.class);
             TableUtils.createTableIfNotExists(connectionSource, BestandItem.class);
+            TableUtils.createTableIfNotExists(connectionSource, SettingsItem.class);
         } catch (SQLException ex) {
             Log.e(LOG, "Error Creating table", ex);
         }
@@ -42,8 +43,10 @@ public class OrmDbHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.dropTable(connectionSource, ScanItem.class, true);
             TableUtils.dropTable(connectionSource, BestandItem.class, true);
+            TableUtils.dropTable(connectionSource, SettingsItem.class, true);
             TableUtils.createTable(connectionSource, ScanItem.class);
             TableUtils.createTable(connectionSource, BestandItem.class);
+            TableUtils.createTable(connectionSource, SettingsItem.class);
         } catch (SQLException ex) {
             Log.e(LOG, "Error Updating table", ex);
         }
@@ -61,6 +64,15 @@ public class OrmDbHelper extends OrmLiteSqliteOpenHelper {
     public Dao<BestandItem, Integer> createBestandItemDAO() {
         try {
             return DaoManager.createDao(connectionSource, BestandItem.class);
+        } catch (SQLException ex) {
+            Log.e(LOG, "Error Creating DAO for Todo class", ex);
+        }
+        return null;
+    }
+
+    public Dao<SettingsItem, Integer> createSettingItemDAO() {
+        try {
+            return DaoManager.createDao(connectionSource, SettingsItem.class);
         } catch (SQLException ex) {
             Log.e(LOG, "Error Creating DAO for Todo class", ex);
         }
