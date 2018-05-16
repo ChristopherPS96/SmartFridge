@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
     @Override
     public void handleResult(Result rawResult) {
-       // Intent intent = new Intent(this, MainActivity.class);
+      // Intent intent = new Intent(this, MainActivity.class);
         //startActivity(intent);
         //Toast.makeText(this, rawResult.getText() + " " + rawResult.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
 
