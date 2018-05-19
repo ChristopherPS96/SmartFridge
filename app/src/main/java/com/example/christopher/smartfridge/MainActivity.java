@@ -5,25 +5,35 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.example.christopher.bestands_app.R;
 import com.google.zxing.Result;
+
+import java.util.ArrayList;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class MainActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private ZXingScannerView mScannerView;
+    private ViewPager myPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +44,24 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         if(shouldAskPermissions()) {
             askPermissions();
         }
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startScan();
-            }
-        });
         mScannerView = new ZXingScannerView(this);
+        setupViewPage();
+    }
+
+    public void setupViewPage() {
+        MyPageAdapter adapter = new MyPageAdapter(this);
+        myPager = findViewById(R.id.pager);
+        myPager.setAdapter(adapter);
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(myPager);
+    }
+
+    //Zugriff auf maincontent/settings Activity
+    public static void setupContent(View view, String title) {
+        if(title.equals("Hauptseite")) {
+            TextView textView = view.findViewById(R.id.textView);
+            textView.setText("Hurra");
+        }
     }
 
     //NUR EINE TESTMETHODE ZUM ZEIGEN WIE FILTER FUNKTIONIEREN

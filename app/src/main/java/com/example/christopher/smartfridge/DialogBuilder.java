@@ -2,32 +2,18 @@ package com.example.christopher.smartfridge;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Toast;
-import com.example.christopher.bestands_app.R;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
+import android.widget.TextView;
 
-import java.sql.Date;
-import java.sql.SQLException;
+import java.util.Date;
 
 public class DialogBuilder extends AppCompatActivity {
 
-    final public static int SCANITEM = 0;
-    final public static int SCANITEMEXIST = 1;
-    final public static int BESTANDITEM = 2;
-    final public static int BESTANDITEMEXIST = 3;
-    private  EditText editText = null;
-    private DatePicker datePicker = null;
     private OrmDataHelper ormDataHelper;
     private Context context;
 
@@ -46,105 +32,168 @@ public class DialogBuilder extends AppCompatActivity {
         super.onDestroy();
     }
 
-    //Alert Dialog zum Bearbeiten, löschen und erstellen (ScanItem/BestandItem kann NULL, wenn nicht vorhanden)
-    public void DialogConstructor(final int id, final ScanItem scanItem, final BestandItem bestandItem) {
-        //Alert Dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        LinearLayout.LayoutParams layoutparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        switch (id) {
-            case SCANITEM:
-                builder.setTitle("ScanItem anlegen");
-                editText = new EditText(context);
-                editText.setLayoutParams(layoutparams);
-                builder.setView(editText);
-                break;
-            case SCANITEMEXIST:
-                builder.setTitle("ScanItem bearbeiten");
-                editText = new EditText(context);
-                editText.setLayoutParams(layoutparams);
-                builder.setView(editText);
-                editText.setText(scanItem.getName());
-                break;
-            case BESTANDITEM:
-                builder.setTitle("BestandItem anlegen");
-                datePicker = new DatePicker(context);
-                datePicker.setLayoutParams(layoutparams);
-                builder.setView(datePicker);
-                break;
-            case BESTANDITEMEXIST:
-                builder.setTitle("BestandItem bearbeiten");
-                datePicker = new DatePicker(context);
-                datePicker.setLayoutParams(layoutparams);
-                builder.setView(datePicker);
-                datePicker.init(bestandItem.getAblaufDatum().getYear(), bestandItem.getAblaufDatum().getMonth(), bestandItem.getAblaufDatum().getDay(), null);
-                break;
-        }
-
-
-        //OKAY Button
-        builder.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+    public void listScanItem() {
+        AlertDialog.Builder listScanItem = new AlertDialog.Builder(context);
+        listScanItem.setTitle("Wähle ein ScanItem:");
+        final ScanItemAdapter scanItemAdapter = new ScanItemAdapter(context, R.layout.scan_item_list, ormDataHelper.getAllScanItem());
+        listScanItem.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (id) {
-                    case SCANITEM:
-                        if(editText.getText() != null && editText.getText().toString().length() > 2) {
-                            ormDataHelper.saveScanItem(new ScanItem(scanItem.getBarcode(), editText.getText().toString()));
-                        } else {
-                            Toast.makeText(context, "Eingabe zu kurz!", Toast.LENGTH_LONG).show();
-                            DialogConstructor(SCANITEM, scanItem, bestandItem);
-                        }
+                dialog.dismiss();
+            }
+        });
+        listScanItem.setAdapter(scanItemAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                createNewBestandItem(scanItemAdapter.getItem(which));
+            }
+        });
+        listScanItem.show();
+    }
 
-                        break;
-                    case SCANITEMEXIST:
-                        if(editText.getText() != null && editText.getText().toString().length() > 2) {
-                            ormDataHelper.saveScanItem(new ScanItem(scanItem.getBarcode(), editText.getText().toString()));
-                            ormDataHelper.deleteScanItem(scanItem);
-                        } else {
-                            Toast.makeText(context, "Eingabe zu kurz!", Toast.LENGTH_LONG).show();
-                            DialogConstructor(SCANITEMEXIST, scanItem, bestandItem);
+    public void createNewScanItem(final String barcode) {
+        AlertDialog.Builder newScanItem = new AlertDialog.Builder(context);
+        newScanItem.setTitle("Gebe dem Produkt einen Namen:");
+        final EditText editText = new EditText(context);
+        newScanItem.setView(editText);
+        newScanItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(editText.getText().toString().length() > 2) {
+                    ormDataHelper.saveScanItem(new ScanItem(barcode, editText.toString()));
+                } else {
+                    AlertDialog.Builder revert = new AlertDialog.Builder(context);
+                    revert.setTitle("Eingabe zu kurz. Wiederholen?");
+                    revert.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            createNewScanItem(barcode);
                         }
-                        break;
-                    case BESTANDITEM:
-                        Date dateTemp = null;
-                        dateTemp.setYear(datePicker.getYear());
-                        dateTemp.setMonth(datePicker.getMonth());
-                        dateTemp.setDate(datePicker.getDayOfMonth());
-                        ormDataHelper.saveBestandItem(new BestandItem(scanItem, dateTemp));
-                        break;
-                    case BESTANDITEMEXIST:
-                        Date date = null;
-                        date.setYear(datePicker.getYear());
-                        date.setMonth(datePicker.getMonth());
-                        date.setDate(datePicker.getDayOfMonth());
-                        ormDataHelper.saveBestandItem(new BestandItem(scanItem, date));
-                        ormDataHelper.deleteBestandItem(bestandItem);
-                        break;
+                    });
+                    revert.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    revert.show();
                 }
             }
         });
-        //ABBRECHEN Button
-        builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+        newScanItem.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                setResult(RESULT_CANCELED);
+                dialog.dismiss();
             }
         });
+        newScanItem.show();
+    }
 
-        //gewählten Eintrag löschen
-        if(id == SCANITEMEXIST || id == BESTANDITEMEXIST) {
-            builder.setNeutralButton("Löschen", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if(id == SCANITEMEXIST) {
-                        ormDataHelper.deleteScanItem(scanItem);
-                    }
-                    if(id == BESTANDITEMEXIST) {
-                        ormDataHelper.deleteBestandItem(bestandItem);
-                    }
+    public void editScanItem(final ScanItem scanItem) {
+        final AlertDialog.Builder editScanItem = new AlertDialog.Builder(context);
+        editScanItem.setTitle("Bearbeiten oder Löschen ihrer Auswahl:");
+        final EditText editText = new EditText(context);
+        TextView textView = new TextView(context);
+        TextView name = new TextView(context);
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.addView(name);
+        linearLayout.addView(editText);
+        linearLayout.addView(textView);
+        name.setText(scanItem.getName());
+        editText.setText("Name hier eingeben...");
+        textView.setText("Barcode: " + scanItem.getBarcode());
+        editScanItem.setView(linearLayout);
+        editScanItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(editText.getText().toString().length() > 2) {
+                    ormDataHelper.saveScanItem(new ScanItem(scanItem.getBarcode(), editText.getText().toString()));
+                    ormDataHelper.deleteScanItem(scanItem);
+                } else {
+                    AlertDialog.Builder revert = new AlertDialog.Builder(context);
+                    revert.setTitle("Name zu kurz! Wiederholen?");
+                    revert.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            editScanItem(scanItem);
+                        }
+                    });
+                    revert.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                           dialog.dismiss();
+                        }
+                    });
+                    revert.show();
                 }
-            });
-        }
-        builder.show();     //zeigen
+            }
+        });
+        editScanItem.setNeutralButton("Löschen", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ormDataHelper.deleteScanItem(scanItem);
+            }
+        });
+        editScanItem.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        editScanItem.show();
+    }
+
+    public void createNewBestandItem(final ScanItem scanItem) {
+        AlertDialog.Builder createBestandItem = new AlertDialog.Builder(context);
+        createBestandItem.setTitle("Setze ein Ablaufdatum:");
+        final DatePicker datePicker = new DatePicker(context);
+        createBestandItem.setView(datePicker);
+        createBestandItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Date date = new Date();
+                date.setDate(datePicker.getDayOfMonth());
+                date.setMonth(datePicker.getMonth());
+                date.setYear(datePicker.getYear());
+                ormDataHelper.saveBestandItem(new BestandItem(scanItem, date));
+            }
+        });
+        createBestandItem.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public void editBestandItem(final BestandItem bestandItem) {
+        AlertDialog.Builder editBestandItem = new AlertDialog.Builder(context);
+        editBestandItem.setTitle("Bearbeite ihre Auswahl:");
+        final DatePicker datePicker = new DatePicker(context);
+        editBestandItem.setView(datePicker);
+        datePicker.init(bestandItem.getAblaufDatum().getYear(), bestandItem.getAblaufDatum().getMonth(), bestandItem.getAblaufDatum().getDate(), null);
+        editBestandItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Date date = new Date();
+                date.setYear(datePicker.getYear());
+                date.setMonth(datePicker.getMonth());
+                date.setDate(datePicker.getDayOfMonth());
+                ormDataHelper.saveBestandItem(new BestandItem(bestandItem.getScanItem(), date));
+                ormDataHelper.deleteBestandItem(bestandItem);
+            }
+        });
+        editBestandItem.setNeutralButton("Löschen", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ormDataHelper.deleteBestandItem(bestandItem);
+            }
+        });
+        editBestandItem.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
     }
 }
