@@ -1,4 +1,4 @@
-package com.example.christopher.smartfridge;
+package com.example.christopher.smartfridge.Builder;
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
@@ -11,7 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
-import com.example.christopher.bestands_app.R;
+import com.example.christopher.smartfridge.Constructor.BestandItem;
+import com.example.christopher.smartfridge.R;
 
 import java.util.Calendar;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.example.christopher.smartfridge;
+package com.example.christopher.smartfridge.Constructor;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;

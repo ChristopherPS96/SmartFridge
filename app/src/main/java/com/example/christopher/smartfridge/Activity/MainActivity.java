@@ -1,4 +1,4 @@
-package com.example.christopher.smartfridge;
+package com.example.christopher.smartfridge.Activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -6,27 +6,24 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.christopher.smartfridge.Adapter.BestandItemAdapter;
+import com.example.christopher.smartfridge.Builder.DialogBuilder;
+import com.example.christopher.smartfridge.Adapter.MyPageAdapter;
+import com.example.christopher.smartfridge.R;
 import com.google.zxing.Result;
-
-import java.util.ArrayList;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -61,6 +58,22 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         if(title.equals("Hauptseite")) {
             TextView textView = view.findViewById(R.id.textView);
             textView.setText("Hurra");
+            FloatingActionButton fab = view.findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "Test", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        if(title.equals("Scanseite")) {
+            FloatingActionButton fab = view.findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "Alternativer Test", Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 

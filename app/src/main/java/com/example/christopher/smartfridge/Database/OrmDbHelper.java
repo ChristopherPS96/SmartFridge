@@ -1,12 +1,15 @@
 //Christopher Schwandt SMIB + Folie aus Mobile Systeme
 
-package com.example.christopher.smartfridge;
+package com.example.christopher.smartfridge.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
 
+import com.example.christopher.smartfridge.Constructor.BestandItem;
+import com.example.christopher.smartfridge.Constructor.ScanItem;
+import com.example.christopher.smartfridge.Constructor.SettingsItem;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;

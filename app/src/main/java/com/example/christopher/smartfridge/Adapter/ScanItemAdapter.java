@@ -1,6 +1,6 @@
 //Christopher Schwandt SMIB + Quelle: https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view
 
-package com.example.christopher.smartfridge;
+package com.example.christopher.smartfridge.Adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,7 +12,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.example.christopher.bestands_app.R;
+import com.example.christopher.smartfridge.Constructor.ScanItem;
+import com.example.christopher.smartfridge.Database.OrmDataHelper;
+import com.example.christopher.smartfridge.R;
 
 import java.util.ArrayList;
 import java.util.List;

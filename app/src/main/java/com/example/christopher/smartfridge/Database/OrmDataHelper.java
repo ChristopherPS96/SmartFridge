@@ -1,12 +1,15 @@
-package com.example.christopher.smartfridge;
+package com.example.christopher.smartfridge.Database;
 
 import android.content.Context;
 
+import com.example.christopher.smartfridge.Constructor.BestandItem;
+import com.example.christopher.smartfridge.Database.OrmDbHelper;
+import com.example.christopher.smartfridge.Constructor.ScanItem;
+import com.example.christopher.smartfridge.Constructor.SettingsItem;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Set;
 
 public class OrmDataHelper {
 
