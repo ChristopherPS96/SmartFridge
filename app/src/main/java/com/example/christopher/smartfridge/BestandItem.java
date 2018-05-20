@@ -1,6 +1,7 @@
-package com.example.christopher.smartfridge.Constructor;
+package com.example.christopher.smartfridge;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
@@ -9,14 +10,12 @@ import java.util.Date;
 public class BestandItem {
     @DatabaseField (generatedId = true)
     private int id;
-    @DatabaseField
+    @DatabaseField (foreign = true)
     private ScanItem scanItem;
     @DatabaseField
     private Date ablaufDatum;
 
-    public BestandItem() {
-
-    }
+    public BestandItem() {    }
 
     public BestandItem(ScanItem scanItem, Date ablaufDatum) {
         this.scanItem = scanItem;

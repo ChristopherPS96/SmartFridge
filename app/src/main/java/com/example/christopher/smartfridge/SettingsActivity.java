@@ -1,4 +1,4 @@
-package com.example.christopher.smartfridge.Activity;
+package com.example.christopher.smartfridge;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

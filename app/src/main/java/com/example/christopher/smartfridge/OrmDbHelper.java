@@ -1,15 +1,12 @@
 //Christopher Schwandt SMIB + Folie aus Mobile Systeme
 
-package com.example.christopher.smartfridge.Database;
+package com.example.christopher.smartfridge;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
 
-import com.example.christopher.smartfridge.Constructor.BestandItem;
-import com.example.christopher.smartfridge.Constructor.ScanItem;
-import com.example.christopher.smartfridge.Constructor.SettingsItem;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -27,7 +24,7 @@ public class OrmDbHelper extends OrmLiteSqliteOpenHelper {
 
     public OrmDbHelper(Context context) {
         super(context, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
-                + File.separator + DB_NAME, null, DB_VERSION);
+                + File.separator + DB_NAME, null, DB_VERSION, R.raw.ormlite_config);
     }
 
     @Override

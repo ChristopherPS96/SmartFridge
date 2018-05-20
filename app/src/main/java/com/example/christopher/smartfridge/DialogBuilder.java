@@ -1,4 +1,4 @@
-package com.example.christopher.smartfridge.Builder;
+package com.example.christopher.smartfridge;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,12 +9,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.example.christopher.smartfridge.Adapter.ScanItemAdapter;
-import com.example.christopher.smartfridge.Constructor.BestandItem;
-import com.example.christopher.smartfridge.Constructor.ScanItem;
-import com.example.christopher.smartfridge.Database.OrmDataHelper;
-import com.example.christopher.smartfridge.R;
 
 import java.util.Date;
 

@@ -1,11 +1,7 @@
-package com.example.christopher.smartfridge.Database;
+package com.example.christopher.smartfridge;
 
 import android.content.Context;
 
-import com.example.christopher.smartfridge.Constructor.BestandItem;
-import com.example.christopher.smartfridge.Database.OrmDbHelper;
-import com.example.christopher.smartfridge.Constructor.ScanItem;
-import com.example.christopher.smartfridge.Constructor.SettingsItem;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;

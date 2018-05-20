@@ -3,7 +3,8 @@ package com.example.christopher.smartfridge;
 public enum CoustomPagerEnum {
 
     HAUPTSEITE("Hauptseite", R.layout.activity_maincontent),
-    SCANSEITE("Scanseite", R.layout.activity_scan_item);
+    SCANSEITE("Scanseite", R.layout.activity_scan_item),
+    OPTIONEN("Optionen", R.layout.activity_settings);
 
     private String title;
     private int layoutID;

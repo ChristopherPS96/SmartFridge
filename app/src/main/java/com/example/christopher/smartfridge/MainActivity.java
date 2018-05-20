@@ -1,4 +1,4 @@
-package com.example.christopher.smartfridge.Activity;
+package com.example.christopher.smartfridge;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -8,21 +8,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.christopher.smartfridge.Adapter.BestandItemAdapter;
-import com.example.christopher.smartfridge.Builder.DialogBuilder;
-import com.example.christopher.smartfridge.Adapter.MyPageAdapter;
-import com.example.christopher.smartfridge.R;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -30,24 +18,23 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class MainActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private ZXingScannerView mScannerView;
-    private ViewPager myPager;
+    private OrmDataHelper ormDataHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar =  findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         if(shouldAskPermissions()) {
             askPermissions();
         }
         mScannerView = new ZXingScannerView(this);
+        ormDataHelper = new OrmDataHelper(this);
         setupViewPage();
     }
 
     public void setupViewPage() {
         MyPageAdapter adapter = new MyPageAdapter(this);
-        myPager = findViewById(R.id.pager);
+        ViewPager myPager = findViewById(R.id.pager);
         myPager.setAdapter(adapter);
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(myPager);
@@ -56,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     //Zugriff auf maincontent/settings Activity
     public static void setupContent(View view, String title) {
         if(title.equals("Hauptseite")) {
-            TextView textView = view.findViewById(R.id.textView);
-            textView.setText("Hurra");
             FloatingActionButton fab = view.findViewById(R.id.fab);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             });
         }
         if(title.equals("Scanseite")) {
-            FloatingActionButton fab = view.findViewById(R.id.fab);
+            FloatingActionButton fab = view.findViewById(R.id.fabScan);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -75,43 +60,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 }
             });
         }
-    }
-
-    //NUR EINE TESTMETHODE ZUM ZEIGEN WIE FILTER FUNKTIONIEREN
-    private BestandItemAdapter bestandItemAdapter;
-    private ListView test; //NUR EINE TESTVARIABLE
-    private EditText test2; //NUR EINE TESTVARIABLE
-    public void setFilter() {
-        bestandItemAdapter = new BestandItemAdapter(this,R.layout.bestand_item_list, null);
-        test.setAdapter(bestandItemAdapter);
-        test2.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                MainActivity.this.bestandItemAdapter.getFilter().filter(s);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) { }
-        });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void startScan() {
@@ -128,14 +76,20 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
     @Override
     public void handleResult(Result rawResult) {
-      // Intent intent = new Intent(this, MainActivity.class);
-        //startActivity(intent);
-        //Toast.makeText(this, rawResult.getText() + " " + rawResult.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
-
-        Intent intentScan = new Intent(this, DialogBuilder.class);
-        //Barcode mitgeben
-        intentScan.putExtra("barcode", rawResult.getText() + " " + rawResult.getBarcodeFormat().toString());
-        startActivityForResult(intentScan, 123);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        boolean exists = false;
+        for(ScanItem scanItem : ormDataHelper.getAllScanItem()) {
+            if(scanItem.getBarcode().equals(rawResult.getText())) {
+                exists = true;
+            }
+        }
+        if(exists) {
+            Toast.makeText(this,"Gegenstand ist bereits in ihrer Datenbank!", Toast.LENGTH_LONG).show();
+        } else {
+            DialogBuilder dialogBuilder = new DialogBuilder(this);
+            dialogBuilder.createNewScanItem(rawResult.getText());
+        }
     }
 
     protected boolean shouldAskPermissions() {      //Quelle: https://stackoverflow.com/questions/8854359/exception-open-failed-eacces-permission-denied-on-android
