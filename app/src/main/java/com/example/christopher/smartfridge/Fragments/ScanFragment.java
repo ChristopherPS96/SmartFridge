@@ -6,11 +6,16 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.christopher.smartfridge.DialogBuilder;
 import com.example.christopher.smartfridge.OrmDataHelper;
 import com.example.christopher.smartfridge.R;
 import com.example.christopher.smartfridge.ScanItem;
@@ -21,7 +26,7 @@ import java.util.ArrayList;
 public class ScanFragment extends Fragment {
 
     public static ArrayList<ScanItem> scanItems = new ArrayList<>();
-    private OrmDataHelper ormDataHelper;
+    private ScanItemAdapter scanItemAdapter;
 
     public static ScanFragment newInstance(String text) {
         ScanFragment scanFragment = new ScanFragment();
@@ -45,7 +50,8 @@ public class ScanFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_scan_item, container, false);
         FloatingActionButton fab = view.findViewById(R.id.fabScan);
-        ormDataHelper = new OrmDataHelper(getActivity());
+        EditText editText = view.findViewById(R.id.filterScan);
+        OrmDataHelper ormDataHelper = new OrmDataHelper(getActivity());
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,8 +60,25 @@ public class ScanFragment extends Fragment {
             }
         });
         ListView scanList = view.findViewById(R.id.scanList);
-        ScanItemAdapter scanItemAdapter = new ScanItemAdapter(getActivity(), R.layout.scan_item_list, scanItems);
+        scanItemAdapter = new ScanItemAdapter(getActivity(), R.layout.scan_item_list, scanItems);
         scanList.setAdapter(scanItemAdapter);
+        scanList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DialogBuilder dialogBuilder = new DialogBuilder(view.getContext());
+                dialogBuilder.editScanItem(scanItems.get(position));
+            }
+        });
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ScanFragment.this.scanItemAdapter.getFilter().filter(s);
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
         scanItems.clear();
         scanItems.addAll(ormDataHelper.getAllScanItem());
         return view;

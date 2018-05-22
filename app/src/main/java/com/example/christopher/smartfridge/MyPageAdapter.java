@@ -1,54 +1,60 @@
 package com.example.christopher.smartfridge;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-public class MyPageAdapter extends PagerAdapter {
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 
-    private Context context;
+import com.example.christopher.smartfridge.Fragments.MainFragment;
+import com.example.christopher.smartfridge.Fragments.OptionFragment;
+import com.example.christopher.smartfridge.Fragments.ScanFragment;
+import com.example.christopher.smartfridge.Fragments.ScannerFragment;
 
-    public MyPageAdapter(Context context) {
-        this.context = context;
+public class MyPageAdapter extends FragmentPagerAdapter {
+
+
+    public MyPageAdapter(FragmentManager fragmentManager) {
+        super(fragmentManager);
     }
 
     @Override
-    @NonNull
-    public Object instantiateItem(@NonNull ViewGroup collection, int position) {
-        CoustomPagerEnum coustomPagerEnum = CoustomPagerEnum.values()[position];
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View layout = inflater.inflate(coustomPagerEnum.getLayoutID(), collection, false);
-        MainActivity.setupContent(layout, coustomPagerEnum.getTitle());
-        collection.addView(layout);
-        return layout;
-    }
-
-    @Override
-    public void setPrimaryItem(@NonNull ViewGroup container, int position,@NonNull Object object) {
-        container.getChildAt(position);
-    }
-
-    @Override
-    public void destroyItem(@NonNull ViewGroup collection, int position,@NonNull Object view) {
-        collection.removeView((View) view);
+    public Fragment getItem(int position) {
+        switch (position) {
+            case 0:
+                return MainFragment.newInstance("MainFragment, Instance 1");
+            case 1:
+                return ScanFragment.newInstance("ScanFragment, Instance 1");
+            case 2:
+                return OptionFragment.newInstance("OptionFragment, Instance 1");
+            case 3:
+                return ScannerFragment.newInstance("ScannerFragment, Instance 1");
+            default:
+                return null;
+        }
     }
 
     @Override
     public int getCount() {
-        return CoustomPagerEnum.values().length;
-    }
-
-    @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view == object;
+        return 4;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        CoustomPagerEnum coustomPagerEnum = CoustomPagerEnum.values()[position];
-        return coustomPagerEnum.getTitle();
+        switch (position) {
+            case 0:
+                return "Bestand";
+            case 1:
+                return "Scans";
+            case 2:
+                return "Optionen";
+            case 3:
+                return "Scanner";
+            default:
+                return null;
+        }
     }
+
+
+
+
 }

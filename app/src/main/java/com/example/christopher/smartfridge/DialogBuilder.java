@@ -60,7 +60,7 @@ public class DialogBuilder extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(editText.getText().toString().length() > 2) {
-                    ormDataHelper.saveScanItem(new ScanItem(barcode, editText.toString()));
+                    ormDataHelper.saveScanItem(new ScanItem(barcode, editText.getText().toString()));
                 } else {
                     AlertDialog.Builder revert = new AlertDialog.Builder(context);
                     revert.setTitle("Eingabe zu kurz. Wiederholen?");
@@ -96,11 +96,12 @@ public class DialogBuilder extends AppCompatActivity {
         TextView textView = new TextView(context);
         TextView name = new TextView(context);
         LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.addView(name);
         linearLayout.addView(editText);
         linearLayout.addView(textView);
         name.setText(scanItem.getName());
-        editText.setText("Name hier eingeben...");
+        editText.setHint("Name hier eingeben...");
         textView.setText("Barcode: " + scanItem.getBarcode());
         editScanItem.setView(linearLayout);
         editScanItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
