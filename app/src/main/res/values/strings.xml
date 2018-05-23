@@ -3,4 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="smart_fridge">Smart Fridge</string>
     <string name="title_activity_scan_item">ScanItemActivity</string>
+    <string name="Fridge">Fridge</string>
+    <string name="start">Start</string>
 </resources>

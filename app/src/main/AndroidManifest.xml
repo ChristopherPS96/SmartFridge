@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.christopher.smartfridge.MainActivity"
+            android:name="com.example.christopher.smartfridge.StartActivity"
             android:label="SmartFridge"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -23,6 +23,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.example.christopher.smartfridge.MainActivity"
+            android:label="SmartFridge">
+        </activity>
     </application>
 
 </manifest>
