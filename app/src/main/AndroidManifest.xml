@@ -7,9 +7,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/icon"
+        android:icon="@mipmap/fridge_hug_round_corner"
         android:label="SmartFridge"
-        android:roundIcon="@mipmap/roundicon"
+        android:roundIcon="@mipmap/fridge_hug_circle"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
