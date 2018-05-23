@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
+
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="49dp" />
@@ -128,10 +130,16 @@
             android:layout_height="match_parent"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Hier Schriftgröße eintragen"
+            android:hint="Hier Schriftgröße eintragen"
             android:textSize="15dp" />
 
 
     </TableRow>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Speichern" />
 
 </LinearLayout>
