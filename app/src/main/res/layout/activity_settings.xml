@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="37dp"
         android:paddingLeft="10dp"
-        android:text="Barcode-Scanner Einstellungen"
+        android:text="@string/barcode_scanner_einstellungen"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
@@ -67,8 +67,9 @@
         android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="37dp"
-        android:text="Benachrichtigungseinstellungen"
-        android:paddingLeft="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/benachrichtigungseinstellungen"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
@@ -81,7 +82,7 @@
             android:layout_width="313dp"
             android:layout_height="match_parent"
             android:paddingLeft="20dp"
-            android:text="Notifications"
+            android:text="@string/notifications"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -103,10 +104,11 @@
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="37dp"
-        android:text="Anzeige Einstellungen"
-        android:paddingLeft="10dp"
+        android:text="@string/anzeige_einstellungen"
+        android:layout_marginLeft="10dp"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_marginStart="10dp" />
 
     <TableRow
         android:layout_width="match_parent"
@@ -117,19 +119,20 @@
             android:id="@+id/textView10"
             android:layout_width="174dp"
             android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:text="Textgröße"
+            android:layout_marginLeft="20dp"
+            android:text="@string/textgr_e"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginStart="20dp" />
 
         <EditText
             android:id="@+id/textsize"
             android:layout_width="195dp"
             android:layout_height="match_parent"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Hier Schriftgröße eintragen"
-            android:textSize="15dp" />
+            android:inputType="number"
+            android:hint="@string/hier_schriftgr_e_eintragen"
+            android:textSize="15sp" />
 
 
     </TableRow>
