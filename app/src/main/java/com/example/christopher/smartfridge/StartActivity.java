@@ -17,7 +17,7 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_start);
         findViewById(R.id.imageView).setOnTouchListener(new OnSwipeTouchListener(this));
     }
 
@@ -82,7 +82,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     public void onStartClick(View view){
-        Intent intent = new Intent(this, BestandActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
