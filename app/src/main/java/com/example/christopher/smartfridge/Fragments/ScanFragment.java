@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.example.christopher.smartfridge.DialogBuilder;
 import com.example.christopher.smartfridge.OrmDataHelper;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 public class ScanFragment extends Fragment {
 
     public static ArrayList<ScanItem> scanItems = new ArrayList<>();
-    private ScanItemAdapter scanItemAdapter;
+    public static ScanItemAdapter scanItemAdapter;
 
     public static ScanFragment newInstance(String text) {
         ScanFragment scanFragment = new ScanFragment();
@@ -50,7 +51,7 @@ public class ScanFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_scan_item, container, false);
         FloatingActionButton fab = view.findViewById(R.id.fabScan);
-        EditText editText = view.findViewById(R.id.filterScan);
+        SearchView searchView = view.findViewById(R.id.filterScan);
         OrmDataHelper ormDataHelper = new OrmDataHelper(getActivity());
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,18 +70,22 @@ public class ScanFragment extends Fragment {
                 dialogBuilder.editScanItem(scanItems.get(position));
             }
         });
-        editText.addTextChangedListener(new TextWatcher() {
+        searchView.setQueryHint("Suchen...");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ScanFragment.this.scanItemAdapter.getFilter().filter(s);
+            public boolean onQueryTextSubmit(String query) {
+                scanItemAdapter.getFilter().filter(query);
+                return false;
             }
+
             @Override
-            public void afterTextChanged(Editable s) { }
+            public boolean onQueryTextChange(String newText) {
+                scanItemAdapter.getFilter().filter(newText);
+                return false;
+            }
         });
-        scanItems.clear();
-        scanItems.addAll(ormDataHelper.getAllScanItem());
+        scanItemAdapter.clear();
+        scanItemAdapter.addAll(ormDataHelper.getAllScanItem());
         return view;
     }
 }

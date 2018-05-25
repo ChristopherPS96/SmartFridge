@@ -5,7 +5,9 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "scanItem")
 public class ScanItem{
-    @DatabaseField(id = true)
+    @DatabaseField (generatedId = true)
+    private int id;
+    @DatabaseField
     private String barcode;
     @DatabaseField
     private String name;
@@ -31,5 +33,11 @@ public class ScanItem{
 
     public void setBarcode(String barcode) {
         this.barcode = barcode;
+    }
+
+    @Override
+    public boolean equals(Object obj) {     //damit die Objekt ordentlich verglichen werden können (z.B. für Remove)
+        return (this.barcode.equals(((ScanItem) obj).barcode) &&
+                (this.name.equals(((ScanItem) obj).name)));
     }
 }

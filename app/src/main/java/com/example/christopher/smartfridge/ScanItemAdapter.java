@@ -12,18 +12,18 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.example.christopher.smartfridge.Fragments.ScanFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ScanItemAdapter extends ArrayAdapter<ScanItem> implements Filterable {
 
-    private List<ScanItem> items;
     private Context context;
 
     public ScanItemAdapter(Context context, int resource, List<ScanItem> items) {
         super(context, resource, items);
         this.context = context;
-        this.items = items;
     }
 
     @Override
@@ -54,23 +54,28 @@ public class ScanItemAdapter extends ArrayAdapter<ScanItem> implements Filterabl
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                ArrayList<ScanItem> scanItems = new ArrayList<>();
-                constraint = constraint.toString().toLowerCase();
                 OrmDataHelper ormDataHelper = new OrmDataHelper(context);
-                for(ScanItem e : ormDataHelper.getAllScanItem()) {
-                    if(e.getName().toLowerCase().startsWith(constraint.toString())) {
-                        scanItems.add(e);
+                ArrayList<ScanItem> filterResults = new ArrayList<>();
+                constraint = constraint.toString().toLowerCase();
+                if(constraint.length() > 0) {
+                    for(ScanItem e : ormDataHelper.getAllScanItem()) {
+                        if(e.getName().toLowerCase().startsWith(constraint.toString())) {
+                            filterResults.add(e);
+                        }
                     }
+                    results.count = filterResults.size();
+                    results.values = filterResults;
+                } else {
+                    results.count = ormDataHelper.getAllScanItem().size();
+                    results.values = ormDataHelper.getAllScanItem();
                 }
-                results.count = scanItems.size();
-                results.values = scanItems;
                 return results;
             }
 
-            @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                items = (List<ScanItem>) results.values;
+                ScanFragment.scanItemAdapter.clear();
+                ScanFragment.scanItemAdapter.addAll((List<ScanItem>) results.values);
                 notifyDataSetChanged();
             }
         };

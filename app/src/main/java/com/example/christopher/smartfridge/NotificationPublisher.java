@@ -44,7 +44,7 @@ public class NotificationPublisher extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         try {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, setTimeInMillis(bestandItem.getAblaufDatum()), pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, setTimeInMillis(bestandItem.getAblaufDatum().getTime()), pendingIntent);
         } catch (NullPointerException e) {
             e.getStackTrace();
         }

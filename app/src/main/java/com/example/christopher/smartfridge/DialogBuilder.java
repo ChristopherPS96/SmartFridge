@@ -10,7 +10,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.Date;
+import com.example.christopher.smartfridge.Fragments.MainFragment;
+import com.example.christopher.smartfridge.Fragments.ScanFragment;
+
+import java.util.Calendar;
 
 public class DialogBuilder extends AppCompatActivity {
 
@@ -32,20 +35,22 @@ public class DialogBuilder extends AppCompatActivity {
         super.onDestroy();
     }
 
+    private int checkedItem;
     public void listScanItem() {
         AlertDialog.Builder listScanItem = new AlertDialog.Builder(context);
         listScanItem.setTitle("Wähle ein ScanItem:");
         final ScanItemAdapter scanItemAdapter = new ScanItemAdapter(context, R.layout.scan_item_list, ormDataHelper.getAllScanItem());
-        listScanItem.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        checkedItem = 1;
         listScanItem.setAdapter(scanItemAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 createNewBestandItem(scanItemAdapter.getItem(which));
+            }
+        });
+        listScanItem.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
         listScanItem.show();
@@ -61,6 +66,7 @@ public class DialogBuilder extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if(editText.getText().toString().length() > 2) {
                     ormDataHelper.saveScanItem(new ScanItem(barcode, editText.getText().toString()));
+                    ScanFragment.scanItemAdapter.add(new ScanItem(barcode, editText.getText().toString()));
                 } else {
                     AlertDialog.Builder revert = new AlertDialog.Builder(context);
                     revert.setTitle("Eingabe zu kurz. Wiederholen?");
@@ -108,8 +114,10 @@ public class DialogBuilder extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(editText.getText().toString().length() > 2) {
-                    ormDataHelper.saveScanItem(new ScanItem(scanItem.getBarcode(), editText.getText().toString()));
                     ormDataHelper.deleteScanItem(scanItem);
+                    ScanFragment.scanItemAdapter.remove(scanItem);
+                    ormDataHelper.saveScanItem(new ScanItem(scanItem.getBarcode(), editText.getText().toString()));
+                    ScanFragment.scanItemAdapter.add(new ScanItem(scanItem.getBarcode(), editText.getText().toString()));
                 } else {
                     AlertDialog.Builder revert = new AlertDialog.Builder(context);
                     revert.setTitle("Name zu kurz! Wiederholen?");
@@ -133,6 +141,7 @@ public class DialogBuilder extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ormDataHelper.deleteScanItem(scanItem);
+                ScanFragment.scanItemAdapter.remove(scanItem);
             }
         });
         editScanItem.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
@@ -152,11 +161,12 @@ public class DialogBuilder extends AppCompatActivity {
         createBestandItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Date date = new Date();
-                date.setDate(datePicker.getDayOfMonth());
-                date.setMonth(datePicker.getMonth());
-                date.setYear(datePicker.getYear());
+                Calendar date = Calendar.getInstance();
+                date.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+                date.set(Calendar.MONTH, datePicker.getMonth());
+                date.set(Calendar.YEAR, datePicker.getYear());
                 ormDataHelper.saveBestandItem(new BestandItem(scanItem, date));
+                MainFragment.bestandItemAdapter.add(new BestandItem(scanItem,date));
             }
         });
         createBestandItem.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
@@ -165,6 +175,7 @@ public class DialogBuilder extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+        createBestandItem.show();
     }
 
     public void editBestandItem(final BestandItem bestandItem) {
@@ -172,22 +183,25 @@ public class DialogBuilder extends AppCompatActivity {
         editBestandItem.setTitle("Bearbeite ihre Auswahl:");
         final DatePicker datePicker = new DatePicker(context);
         editBestandItem.setView(datePicker);
-        datePicker.init(bestandItem.getAblaufDatum().getYear(), bestandItem.getAblaufDatum().getMonth(), bestandItem.getAblaufDatum().getDate(), null);
+        datePicker.init(bestandItem.getAblaufDatum().get(Calendar.YEAR), bestandItem.getAblaufDatum().get(Calendar.MONTH), bestandItem.getAblaufDatum().get(Calendar.DAY_OF_MONTH), null);
         editBestandItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Date date = new Date();
-                date.setYear(datePicker.getYear());
-                date.setMonth(datePicker.getMonth());
-                date.setDate(datePicker.getDayOfMonth());
-                ormDataHelper.saveBestandItem(new BestandItem(bestandItem.getScanItem(), date));
+                Calendar date = Calendar.getInstance();
+                date.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+                date.set(Calendar.MONTH, datePicker.getMonth());
+                date.set(Calendar.YEAR, datePicker.getYear());
                 ormDataHelper.deleteBestandItem(bestandItem);
+                MainFragment.bestandItemAdapter.remove(bestandItem);
+                ormDataHelper.saveBestandItem(new BestandItem(bestandItem.getScanItem(), date));
+                MainFragment.bestandItemAdapter.add(new BestandItem(bestandItem.getScanItem(), date));
             }
         });
         editBestandItem.setNeutralButton("Löschen", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ormDataHelper.deleteBestandItem(bestandItem);
+                MainFragment.bestandItemAdapter.remove(bestandItem);
             }
         });
         editBestandItem.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
@@ -196,5 +210,16 @@ public class DialogBuilder extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+        editBestandItem.show();
+    }
+
+    public void createNotification(BestandItem bestandItem) {
+        NotificationPublisher notificationPublisher = new NotificationPublisher();
+        notificationPublisher.scheduleNotification(bestandItem, getApplicationContext());
+    }
+
+    public void deleteNotification(BestandItem bestandItem) {
+        NotificationPublisher notificationPublisher = new NotificationPublisher();
+        notificationPublisher.deleteNotification(bestandItem, getApplicationContext());
     }
 }
