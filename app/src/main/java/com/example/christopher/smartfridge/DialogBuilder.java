@@ -34,13 +34,12 @@ public class DialogBuilder extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
     }
-
-    private int checkedItem;
+    
     public void listScanItem() {
         AlertDialog.Builder listScanItem = new AlertDialog.Builder(context);
         listScanItem.setTitle("Wähle ein ScanItem:");
+        listScanItem.setIcon(R.mipmap.fridge_icon);
         final ScanItemAdapter scanItemAdapter = new ScanItemAdapter(context, R.layout.scan_item_list, ormDataHelper.getAllScanItem());
-        checkedItem = 1;
         listScanItem.setAdapter(scanItemAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -59,6 +58,7 @@ public class DialogBuilder extends AppCompatActivity {
     public void createNewScanItem(final String barcode) {
         AlertDialog.Builder newScanItem = new AlertDialog.Builder(context);
         newScanItem.setTitle("Gebe dem Produkt einen Namen:");
+        newScanItem.setIcon(R.mipmap.fridge_icon);
         final EditText editText = new EditText(context);
         newScanItem.setView(editText);
         newScanItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
@@ -98,6 +98,7 @@ public class DialogBuilder extends AppCompatActivity {
     public void editScanItem(final ScanItem scanItem) {
         final AlertDialog.Builder editScanItem = new AlertDialog.Builder(context);
         editScanItem.setTitle("Bearbeiten oder Löschen ihrer Auswahl:");
+        editScanItem.setIcon(R.mipmap.fridge_icon);
         final EditText editText = new EditText(context);
         TextView textView = new TextView(context);
         TextView name = new TextView(context);
@@ -156,6 +157,7 @@ public class DialogBuilder extends AppCompatActivity {
     public void createNewBestandItem(final ScanItem scanItem) {
         AlertDialog.Builder createBestandItem = new AlertDialog.Builder(context);
         createBestandItem.setTitle("Setze ein Ablaufdatum:");
+        createBestandItem.setIcon(R.mipmap.fridge_icon);
         final DatePicker datePicker = new DatePicker(context);
         createBestandItem.setView(datePicker);
         createBestandItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
@@ -180,6 +182,7 @@ public class DialogBuilder extends AppCompatActivity {
 
     public void editBestandItem(final BestandItem bestandItem) {
         AlertDialog.Builder editBestandItem = new AlertDialog.Builder(context);
+        editBestandItem.setIcon(R.mipmap.fridge_icon);
         editBestandItem.setTitle("Bearbeite ihre Auswahl:");
         final DatePicker datePicker = new DatePicker(context);
         editBestandItem.setView(datePicker);

@@ -10,7 +10,7 @@ import java.util.Calendar;
 public class BestandItem {
     @DatabaseField (generatedId = true)
     private int id;
-    @DatabaseField (foreign = true, foreignAutoCreate = true)
+    @DatabaseField (foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true)
     private ScanItem scanItem;
     @DatabaseField (dataType = DataType.SERIALIZABLE)
     private Calendar ablaufDatum;

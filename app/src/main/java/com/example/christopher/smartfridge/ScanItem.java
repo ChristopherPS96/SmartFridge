@@ -5,9 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "scanItem")
 public class ScanItem{
-    @DatabaseField (generatedId = true)
-    private int id;
-    @DatabaseField
+    @DatabaseField (id = true)
     private String barcode;
     @DatabaseField
     private String name;
