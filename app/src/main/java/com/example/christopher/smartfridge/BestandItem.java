@@ -14,12 +14,15 @@ public class BestandItem {
     private ScanItem scanItem;
     @DatabaseField (dataType = DataType.SERIALIZABLE)
     private Calendar ablaufDatum;
+    @DatabaseField
+    private int amount;
 
     public BestandItem() {    }
 
-    public BestandItem(ScanItem scanItem, Calendar ablaufDatum) {
+    public BestandItem(ScanItem scanItem, Calendar ablaufDatum, int amount) {
         this.scanItem = scanItem;
         this.ablaufDatum = ablaufDatum;
+        this.amount = amount;
     }
 
     public Calendar getAblaufDatum() {
@@ -36,6 +39,16 @@ public class BestandItem {
 
     public void setScanItem(ScanItem scanItem) {
         this.scanItem = scanItem;
+    }
+
+    public int getId() { return id; }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     @Override

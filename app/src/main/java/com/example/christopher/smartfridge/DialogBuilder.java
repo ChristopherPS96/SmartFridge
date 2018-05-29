@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.example.christopher.smartfridge.Fragments.MainFragment;
@@ -34,7 +35,7 @@ public class DialogBuilder extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
     }
-    
+
     public void listScanItem() {
         AlertDialog.Builder listScanItem = new AlertDialog.Builder(context);
         listScanItem.setTitle("Wähle ein ScanItem:");
@@ -154,12 +155,23 @@ public class DialogBuilder extends AppCompatActivity {
         editScanItem.show();
     }
 
+    private BestandItem temp;
     public void createNewBestandItem(final ScanItem scanItem) {
         AlertDialog.Builder createBestandItem = new AlertDialog.Builder(context);
-        createBestandItem.setTitle("Setze ein Ablaufdatum:");
+        createBestandItem.setTitle("Setze notwendige Details:");
         createBestandItem.setIcon(R.mipmap.fridge_icon);
+        final LinearLayout linearLayout = new LinearLayout(context);
         final DatePicker datePicker = new DatePicker(context);
-        createBestandItem.setView(datePicker);
+        TextView textView = new TextView(context);
+        textView.setText("Wie viele haben sie?");
+        NumberPicker numberPicker = new NumberPicker(context);
+        numberPicker.setMinValue(1);
+        numberPicker.setMaxValue(1000);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(datePicker);
+        linearLayout.addView(textView);
+        linearLayout.addView(numberPicker);
+        createBestandItem.setView(linearLayout);
         createBestandItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -167,8 +179,50 @@ public class DialogBuilder extends AppCompatActivity {
                 date.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
                 date.set(Calendar.MONTH, datePicker.getMonth());
                 date.set(Calendar.YEAR, datePicker.getYear());
-                ormDataHelper.saveBestandItem(new BestandItem(scanItem, date));
-                MainFragment.bestandItemAdapter.add(new BestandItem(scanItem,date));
+                boolean exist = false;
+                for(BestandItem e : ormDataHelper.getAllBestandItem()) {
+                    if(scanItem.getBarcode().equals(e.getScanItem().getBarcode()) && date.get(Calendar.DAY_OF_MONTH) == e.getAblaufDatum().get(Calendar.DAY_OF_MONTH) && date.get(Calendar.MONTH) == e.getAblaufDatum().get(Calendar.MONTH) && date.get(Calendar.YEAR) == e.getAblaufDatum().get(Calendar.YEAR)) {
+                        temp = e;
+                        AlertDialog.Builder dialogExist = new AlertDialog.Builder(context);
+                        dialogExist.setIcon(R.mipmap.fridge_icon_round);
+                        dialogExist.setTitle("Gegenstand existiert bereits!");
+                        final LinearLayout linearLayout1 = new LinearLayout(context);
+                        linearLayout1.setOrientation(LinearLayout.VERTICAL);
+                        TextView textView = new TextView(context);
+                        textView.setText("Wie viel mehr haben sie gekauft?");
+                        NumberPicker numberPicker1 = new NumberPicker(context);
+                        numberPicker1.setMinValue(1);
+                        numberPicker1.setMaxValue(1000);
+                        linearLayout1.addView(textView);
+                        linearLayout1.addView(numberPicker1);
+                        dialogExist.setView(linearLayout1);
+                        dialogExist.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ormDataHelper.deleteBestandItem(temp);
+                                MainFragment.bestandItemAdapter.remove(temp);
+                                temp.setAmount(temp.getAmount() + ((NumberPicker) linearLayout1.getChildAt(1)).getValue());
+                                ormDataHelper.saveBestandItem(temp);
+                                MainFragment.bestandItemAdapter.add(temp);
+                                createNotification(temp);
+                            }
+                        });
+                        dialogExist.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialogExist.show();
+                        exist = true;
+                    }
+                }
+                if(!exist) {
+                    BestandItem temp = new BestandItem(scanItem, date, ((NumberPicker) linearLayout.getChildAt(2)).getValue());
+                    ormDataHelper.saveBestandItem(temp);
+                    MainFragment.bestandItemAdapter.add(temp);
+                    createNotification(temp);
+                }
             }
         });
         createBestandItem.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
@@ -184,8 +238,19 @@ public class DialogBuilder extends AppCompatActivity {
         AlertDialog.Builder editBestandItem = new AlertDialog.Builder(context);
         editBestandItem.setIcon(R.mipmap.fridge_icon);
         editBestandItem.setTitle("Bearbeite ihre Auswahl:");
+        final LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
         final DatePicker datePicker = new DatePicker(context);
-        editBestandItem.setView(datePicker);
+        TextView textView = new TextView(context);
+        textView.setText("Menge ändern:");
+        NumberPicker numberPicker = new NumberPicker(context);
+        numberPicker.setMinValue(1);
+        numberPicker.setMaxValue(bestandItem.getAmount() + 1000);
+        numberPicker.setValue(bestandItem.getAmount());
+        linearLayout.addView(datePicker);
+        linearLayout.addView(textView);
+        linearLayout.addView(numberPicker);
+        editBestandItem.setView(linearLayout);
         datePicker.init(bestandItem.getAblaufDatum().get(Calendar.YEAR), bestandItem.getAblaufDatum().get(Calendar.MONTH), bestandItem.getAblaufDatum().get(Calendar.DAY_OF_MONTH), null);
         editBestandItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             @Override
@@ -196,8 +261,11 @@ public class DialogBuilder extends AppCompatActivity {
                 date.set(Calendar.YEAR, datePicker.getYear());
                 ormDataHelper.deleteBestandItem(bestandItem);
                 MainFragment.bestandItemAdapter.remove(bestandItem);
-                ormDataHelper.saveBestandItem(new BestandItem(bestandItem.getScanItem(), date));
-                MainFragment.bestandItemAdapter.add(new BestandItem(bestandItem.getScanItem(), date));
+                deleteNotification(bestandItem);
+                BestandItem temp = new BestandItem(bestandItem.getScanItem(), date, ((NumberPicker) linearLayout.getChildAt(2)).getValue());
+                ormDataHelper.saveBestandItem(temp);
+                MainFragment.bestandItemAdapter.add(temp);
+                createNotification(temp);
             }
         });
         editBestandItem.setNeutralButton("Löschen", new DialogInterface.OnClickListener() {
@@ -205,6 +273,7 @@ public class DialogBuilder extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 ormDataHelper.deleteBestandItem(bestandItem);
                 MainFragment.bestandItemAdapter.remove(bestandItem);
+                deleteNotification(bestandItem);
             }
         });
         editBestandItem.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
@@ -218,11 +287,11 @@ public class DialogBuilder extends AppCompatActivity {
 
     public void createNotification(BestandItem bestandItem) {
         NotificationPublisher notificationPublisher = new NotificationPublisher();
-        notificationPublisher.scheduleNotification(bestandItem, getApplicationContext());
+        notificationPublisher.scheduleNotification(bestandItem, context);
     }
 
     public void deleteNotification(BestandItem bestandItem) {
         NotificationPublisher notificationPublisher = new NotificationPublisher();
-        notificationPublisher.deleteNotification(bestandItem, getApplicationContext());
+        notificationPublisher.deleteNotification(bestandItem, context);
     }
 }
