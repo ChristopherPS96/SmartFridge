@@ -31,6 +31,8 @@ public class DialogBuilder extends AppCompatActivity {
         ormDataHelper = new OrmDataHelper(context);
     }
 
+    public DialogBuilder() {   }
+
     @Override
     public void onDestroy(){
         super.onDestroy();
