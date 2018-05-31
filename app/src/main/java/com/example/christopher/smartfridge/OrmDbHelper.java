@@ -16,6 +16,7 @@ import com.j256.ormlite.table.TableUtils;
 import java.io.File;
 import java.sql.SQLException;
 
+@SuppressWarnings("WeakerAccess")
 public class OrmDbHelper extends OrmLiteSqliteOpenHelper {
 
     public static final String LOG = OrmDbHelper.class.getName();
@@ -23,7 +24,7 @@ public class OrmDbHelper extends OrmLiteSqliteOpenHelper {
     public static final int DB_VERSION = 1;
 
     public OrmDbHelper(Context context) {
-        super(context, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
+        super(context, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()
                 + File.separator + DB_NAME, null, DB_VERSION, R.raw.ormlite_config);
     }
 

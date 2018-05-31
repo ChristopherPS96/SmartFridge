@@ -5,6 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable (tableName = "settingItem")
 public class SettingsItem {
+    @SuppressWarnings("unused")
     @DatabaseField (generatedId = true)
    private int id;
     @DatabaseField

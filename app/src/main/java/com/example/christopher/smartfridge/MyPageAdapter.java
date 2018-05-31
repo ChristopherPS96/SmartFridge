@@ -12,7 +12,7 @@ import com.example.christopher.smartfridge.Fragments.ScannerFragment;
 
 public class MyPageAdapter extends FragmentPagerAdapter {
 
-
+@SuppressWarnings("WeakerAccess")
     public MyPageAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }

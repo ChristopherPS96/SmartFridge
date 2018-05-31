@@ -24,6 +24,7 @@ public class ScanItemAdapter extends ArrayAdapter<ScanItem> implements Filterabl
     public ScanItemAdapter(Context context, int resource, List<ScanItem> items) {
         super(context, resource, items);
         this.context = context;
+
     }
 
     @Override
@@ -33,14 +34,14 @@ public class ScanItemAdapter extends ArrayAdapter<ScanItem> implements Filterabl
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.scan_item_list, null);
+            v = vi.inflate(R.layout.scan_item_list, parent, false);
         }
         ScanItem p = getItem(position);
         if (p != null) {
             TextView tt1 = v.findViewById(R.id.name);
             TextView tt2 = v.findViewById(R.id.barcode);
                 tt1.setText(p.getName());
-                tt2.setText("Barcode: " + p.getBarcode());
+                tt2.setText(context.getResources().getString(R.string.editScanBarcode, p.getBarcode()));
         }
         return v;
     }
@@ -49,7 +50,7 @@ public class ScanItemAdapter extends ArrayAdapter<ScanItem> implements Filterabl
     @NonNull
     public Filter getFilter() {
 
-        Filter filter = new Filter() {
+        return new Filter() {
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
@@ -73,12 +74,12 @@ public class ScanItemAdapter extends ArrayAdapter<ScanItem> implements Filterabl
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 ScanFragment.scanItemAdapter.clear();
                 ScanFragment.scanItemAdapter.addAll((List<ScanItem>) results.values);
                 notifyDataSetChanged();
             }
         };
-        return filter;
     }
 }
