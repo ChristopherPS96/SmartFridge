@@ -110,33 +110,6 @@
         android:textSize="18sp"
         android:layout_marginStart="10dp" />
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="174dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:text="@string/textgr_e"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:layout_marginStart="20dp" />
-
-        <EditText
-            android:id="@+id/textsize"
-            android:layout_width="195dp"
-            android:layout_height="match_parent"
-            android:ems="10"
-            android:inputType="number"
-            android:hint="@string/hier_schriftgr_e_eintragen"
-            android:textSize="15sp" />
-
-
-    </TableRow>
-
     <Button
         android:id="@+id/bestandCopy"
         android:layout_width="match_parent"
