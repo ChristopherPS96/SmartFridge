@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="49dp" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:paddingLeft="10dp"
+        android:text="@string/barcode_scanner_einstellungen"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="33dp" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="313dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:text="AutoFocus"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/autofocus"
+            android:layout_width="55dp"
+            android:layout_height="match_parent" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="33dp" >
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="313dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:text="Blitz"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/lightning"
+            android:layout_width="55dp"
+            android:layout_height="match_parent" />
+    </TableRow>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/benachrichtigungseinstellungen"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="33dp" >
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="313dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:text="@string/notifications"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/notifications"
+            android:layout_width="55dp"
+            android:layout_height="match_parent" />
+    </TableRow>
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:text="@string/anzeige_einstellungen"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:layout_marginStart="10dp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="174dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:text="@string/textgr_e"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="20dp" />
+
+        <EditText
+            android:id="@+id/textsize"
+            android:layout_width="195dp"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="@string/hier_schriftgr_e_eintragen"
+            android:textSize="15sp" />
+
+
+    </TableRow>
+
+</LinearLayout>
