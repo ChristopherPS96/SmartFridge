@@ -137,4 +137,10 @@
 
     </TableRow>
 
+    <Button
+        android:id="@+id/bestandCopy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bestand kopieren" />
+
 </LinearLayout>

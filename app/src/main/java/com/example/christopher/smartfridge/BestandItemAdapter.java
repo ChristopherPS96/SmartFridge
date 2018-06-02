@@ -35,7 +35,7 @@ public class BestandItemAdapter extends ArrayAdapter<BestandItem> implements Fil
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.bestand_item_list, null);
+            v = vi.inflate(R.layout.bestand_item_list, parent, false);
         }
         BestandItem p = getItem(position);
         if (p != null) {
@@ -44,9 +44,9 @@ public class BestandItemAdapter extends ArrayAdapter<BestandItem> implements Fil
             TextView tt3 = v.findViewById(R.id.barcode);
             TextView tt4 = v.findViewById(R.id.amount);
                 tt1.setText(p.getScanItem().getName());
-                tt2.setText("Ablaufdatum: " + p.getAblaufDatum().get(Calendar.DAY_OF_MONTH) + "." + p.getAblaufDatum().get(Calendar.MONTH) + "." + p.getAblaufDatum().get(Calendar.YEAR));
-                tt3.setText("Barcode: " + p.getScanItem().getBarcode());
-                tt4.setText("Anzahl: " + p.getAmount() + "x");
+                tt2.setText(context.getResources().getString(R.string.ablaufDatumBestandItem, p.getAblaufDatum().get(Calendar.DAY_OF_MONTH), p.getAblaufDatum().get(Calendar.MONTH), p.getAblaufDatum().get(Calendar.YEAR)));
+                tt3.setText(context.getResources().getString(R.string.editScanBarcode, p.getScanItem().getBarcode()));
+                tt4.setText(context.getResources().getString(R.string.amountBestandItem, p.getAmount()));
         }
         return v;
     }
@@ -79,6 +79,7 @@ public class BestandItemAdapter extends ArrayAdapter<BestandItem> implements Fil
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 MainFragment.bestandItemAdapter.clear();
                 MainFragment.bestandItemAdapter.addAll((List<BestandItem>) results.values);

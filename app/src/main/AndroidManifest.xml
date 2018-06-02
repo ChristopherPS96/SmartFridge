@@ -27,7 +27,12 @@
             android:name="com.example.christopher.smartfridge.MainActivity"
             android:label="SmartFridge">
         </activity>
-        <activity android:name=".DialogBuilder" />
+        <activity android:name="com.example.christopher.smartfridge.DialogBuilder"
+            android:label="SmartFridge">
+        </activity>
+        <activity android:name="com.example.christopher.smartfridge.SettingsActivity"
+            android:label="SmartFridge">
+        </activity>
     </application>
 
 </manifest>

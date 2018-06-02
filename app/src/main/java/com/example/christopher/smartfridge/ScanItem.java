@@ -35,7 +35,8 @@ public class ScanItem{
 
     @Override
     public boolean equals(Object obj) {     //damit die Objekt ordentlich verglichen werden können (z.B. für Remove)
-        return (this.barcode.equals(((ScanItem) obj).barcode) &&
+        return (obj.getClass().equals(ScanItem.class) &&
+                this.barcode.equals(((ScanItem) obj).barcode) &&
                 (this.name.equals(((ScanItem) obj).name)));
     }
 }

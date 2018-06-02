@@ -20,6 +20,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     private ZXingScannerView mScannerView;
     private OrmDataHelper ormDataHelper;
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mScannerView = new ZXingScannerView(getActivity());

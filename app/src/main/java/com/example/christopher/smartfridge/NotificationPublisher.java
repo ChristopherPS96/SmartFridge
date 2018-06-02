@@ -12,8 +12,8 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.Calendar;
-import java.util.Date;
 
+@SuppressWarnings("ConstantConditions")
 public class NotificationPublisher extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification-id";
@@ -43,7 +43,7 @@ public class NotificationPublisher extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, bestandItem.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         try {
-            alarmManager.set(AlarmManager.ELAPSED_REALTIME, setTimeInMillis(bestandItem.getAblaufDatum().getTime()) - System.currentTimeMillis(), pendingIntent);
+            alarmManager.set(AlarmManager.ELAPSED_REALTIME, setTimeInMillis(bestandItem.getAblaufDatum()) - System.currentTimeMillis(), pendingIntent);
         } catch (NullPointerException e) {
             e.getStackTrace();
         }
@@ -60,11 +60,7 @@ public class NotificationPublisher extends BroadcastReceiver {
         }
     }
 
-    public long setTimeInMillis(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, date.getDay());
-        cal.set(Calendar.MONTH, date.getMonth());
-        cal.set(Calendar.YEAR, date.getYear());
+    public long setTimeInMillis(Calendar cal) {
         return cal.getTimeInMillis();
     }
 
