@@ -67,11 +67,11 @@
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="33dp" >
+        android:layout_height="46dp">
 
         <TextView
             android:id="@+id/textView6"
-            android:layout_width="313dp"
+            android:layout_width="394dp"
             android:layout_height="match_parent"
             android:paddingLeft="20dp"
             android:text="@string/notifications"

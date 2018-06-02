@@ -15,7 +15,7 @@
         android:paddingLeft="10dp"
         android:text="@string/barcode_scanner_einstellungen"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="24sp" />
 
     <TableRow
         android:layout_width="match_parent"
@@ -23,12 +23,12 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="313dp"
+            android:layout_width="384dp"
             android:layout_height="match_parent"
             android:paddingLeft="20dp"
             android:text="AutoFocus"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="22sp" />
 
         <Switch
             android:id="@+id/autofocus"
@@ -42,12 +42,12 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="313dp"
+            android:layout_width="384dp"
             android:layout_height="match_parent"
             android:paddingLeft="20dp"
             android:text="Blitz"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="22sp" />
 
         <Switch
             android:id="@+id/lightning"
@@ -61,7 +61,7 @@
         android:layout_height="37dp"
         android:text=""
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/textView5"
@@ -71,7 +71,7 @@
         android:layout_marginStart="10dp"
         android:text="@string/benachrichtigungseinstellungen"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="24sp" />
 
     <TableRow
         android:layout_width="match_parent"
@@ -79,12 +79,12 @@
 
         <TextView
             android:id="@+id/textView6"
-            android:layout_width="313dp"
+            android:layout_width="384dp"
             android:layout_height="match_parent"
             android:paddingLeft="20dp"
             android:text="@string/notifications"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="22sp" />
 
         <Switch
             android:id="@+id/notifications"
@@ -98,22 +98,12 @@
         android:layout_height="37dp"
         android:text=""
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="match_parent"
-        android:layout_height="37dp"
-        android:text="@string/anzeige_einstellungen"
-        android:layout_marginLeft="10dp"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        android:layout_marginStart="10dp" />
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/bestandCopy"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:text="Bestand kopieren" />
 
 </LinearLayout>

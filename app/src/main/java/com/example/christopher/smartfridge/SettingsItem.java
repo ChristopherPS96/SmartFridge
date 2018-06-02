@@ -9,8 +9,6 @@ public class SettingsItem {
     @DatabaseField (generatedId = true)
    private int id;
     @DatabaseField
-   private int textSize;
-    @DatabaseField
     private boolean autofocus;
     @DatabaseField
     private boolean lightning;
@@ -22,18 +20,9 @@ public class SettingsItem {
     }
 
     public SettingsItem(int textSize, boolean autofocus,  boolean lightning, boolean notifications){
-        this.textSize = textSize;
         this.autofocus = autofocus;
         this.lightning = lightning;
         this.notifications = notifications;
-    }
-
-    public int getTextSize() {
-        return textSize;
-    }
-
-    public void setTextSize(int textSize) {
-        this.textSize = textSize;
     }
 
     public boolean isAutofocus() {
