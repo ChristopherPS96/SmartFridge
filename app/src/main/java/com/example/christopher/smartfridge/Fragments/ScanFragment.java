@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.example.christopher.smartfridge.DialogBuilder;
 import com.example.christopher.smartfridge.OrmDataHelper;
@@ -59,13 +58,13 @@ public class ScanFragment extends Fragment {
                 vp.setCurrentItem(3);
             }
         });
-        final ListView scanList = view.findViewById(R.id.scanList);
+        ListView scanList = view.findViewById(R.id.scanList);
         scanItemAdapter = new ScanItemAdapter(getActivity(), R.layout.scan_item_list, scanItems);
         scanList.setAdapter(scanItemAdapter);
         scanList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DialogBuilder dialogBuilder = new DialogBuilder(getActivity());
+                DialogBuilder dialogBuilder = new DialogBuilder(view.getContext());
                 dialogBuilder.editScanItem(scanItems.get(position));
             }
         });
