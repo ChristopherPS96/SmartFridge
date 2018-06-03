@@ -135,7 +135,7 @@ public class DialogBuilder extends AppCompatActivity {
                     revert.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                           dialog.dismiss();
+                            dialog.dismiss();
                         }
                     });
                     revert.show();
