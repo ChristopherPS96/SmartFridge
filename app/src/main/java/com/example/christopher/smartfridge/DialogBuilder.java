@@ -113,8 +113,7 @@ public class DialogBuilder extends AppCompatActivity {
         linearLayout.addView(textView);
         name.setText(scanItem.getName());
         editText.setHint("Name hier eingeben...");
-        String text = getString(R.string.editScanBarcode, scanItem.getBarcode());
-        textView.setText(text);
+        textView.setText(context.getResources().getString(R.string.editScanBarcode, scanItem.getBarcode()));
         editScanItem.setView(linearLayout);
         editScanItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             @Override
