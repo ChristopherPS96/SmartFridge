@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(myPager.getCurrentItem() == 0) {
+            moveTaskToBack(true);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
             super.onBackPressed();
         } else {
             myPager.setCurrentItem(myPager.getCurrentItem() - 1);

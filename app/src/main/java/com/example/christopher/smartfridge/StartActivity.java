@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import pl.droidsonroids.gif.GifTextView;
-import pl.droidsonroids.gif.GifTextureView;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -32,15 +31,10 @@ public class StartActivity extends AppCompatActivity {
             askPermissions();
         }
         findViewById(R.id.imageView).setOnTouchListener(new OnSwipeTouchListener(this));
-
-
         RotateAnimation rotate = new RotateAnimation(0, 720, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setInterpolator(new LinearInterpolator());
-
         TranslateAnimation translate = new TranslateAnimation(0, 0, 500, 0 );
-
         GifTextView image= findViewById(R.id.logoImage);
-
         AnimationSet set = new AnimationSet(false);
         set.addAnimation(rotate);
         set.addAnimation(translate);
@@ -50,6 +44,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     // bei swipe Kühlschrank auf/zu
+    @SuppressWarnings("WeakerAccess")
     public class OnSwipeTouchListener implements View.OnTouchListener {
 
         private final GestureDetector gestureDetector;
@@ -85,6 +80,7 @@ public class StartActivity extends AppCompatActivity {
         }
 
         public boolean onTouch(View v, MotionEvent event) {
+            v.performClick();
             return gestureDetector.onTouchEvent(event);
         }
 

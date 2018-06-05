@@ -11,7 +11,6 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch autofocus;
     private Switch notifications;
     private Switch lightning;
-    private EditText textsize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +19,5 @@ public class SettingsActivity extends AppCompatActivity {
         autofocus = findViewById(R.id.autofocus);
         notifications = findViewById(R.id.notifications);
         lightning = findViewById(R.id.lightning);
-        textsize = findViewById(R.id.textsize);
     }
 }

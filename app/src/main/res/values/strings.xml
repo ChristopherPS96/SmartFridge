@@ -5,11 +5,17 @@
     <string name="title_activity_scan_item">ScanItemActivity</string>
     <string name="Fridge">Fridge</string>
     <string name="start">Start</string>
-    <string name="suche">Suche...</string>
+    <string name="suche">Suche…</string>
     <string name="benachrichtigungseinstellungen">Benachrichtigungseinstellungen</string>
     <string name="notifications">Notifications</string>
     <string name="anzeige_einstellungen">Anzeige Einstellungen</string>
     <string name="textgr_e">Textgröße</string>
     <string name="hier_schriftgr_e_eintragen">Hier Schriftgröße eintragen</string>
     <string name="barcode_scanner_einstellungen">Barcode-Scanner Einstellungen</string>
+    <string name="createNewBestand">Wie viele haben sie?</string>
+    <string name="createNewBestandExist">Wie viel mehr haben sie gekauft?</string>
+    <string name="editBestandItem">Menge ändern:</string>
+    <string name="editScanBarcode">Barcode: %1$s</string>
+    <string name="amountBestandItem">Anzahl: %1$dx</string>
+    <string name="ablaufDatumBestandItem">Ablaufdatum: %1$d.%2$d.%3$d</string>
 </resources>
