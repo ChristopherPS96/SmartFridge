@@ -10,15 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.christopher.smartfridge.BestandItem;
 import com.example.christopher.smartfridge.OrmDataHelper;
 import com.example.christopher.smartfridge.R;
+import com.example.christopher.smartfridge.SettingsItem;
 
 import java.util.Calendar;
 
 public class OptionFragment extends Fragment {
+    private Switch autofocus;
+    private Switch notifications;
+    private Switch lightning;
 
     public static OptionFragment newInstance(String text) {
         OptionFragment optionFragment = new OptionFragment();
@@ -37,6 +43,14 @@ public class OptionFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_settings, container, false);
         Button copyBestand = view.findViewById(R.id.bestandCopy);
+        Button saveSettings = view.findViewById(R.id.saveSettings);
+        autofocus = view.findViewById(R.id.autofocus);
+        notifications = view.findViewById(R.id.notifications);
+        lightning = view.findViewById(R.id.lightning);
+
+        //setzt die alten Settings für User zur Änderung
+        setOldSettings();
+
         final OrmDataHelper ormDataHelper = new OrmDataHelper(getActivity());
         copyBestand.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +71,40 @@ public class OptionFragment extends Fragment {
                 }
             }
         });
+        saveSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveSettings();
+            }
+        });
         return view;
     }
+
+    private void saveSettings(){
+        OrmDataHelper helper = new OrmDataHelper(getActivity());
+        //falls Settings vorhanden -> löschen, dann neue Settings
+        if(helper.getSettingItem() != null){
+            helper.deleteSettingItem(helper.getSettingItem());
+        }
+        SettingsItem settingsItem = new SettingsItem();
+        settingsItem.setAutofocus(autofocus.isChecked());
+        settingsItem.setLightning(lightning.isChecked());
+        settingsItem.setNotifications(notifications.isChecked());
+
+
+        helper.saveSettingItem(settingsItem);
+
+    }
+
+    private void setOldSettings(){
+        OrmDataHelper helper = new OrmDataHelper(getActivity());
+        if(helper.getSettingItem()!= null){
+            SettingsItem oldSettings = helper.getSettingItem();
+            autofocus.setChecked(oldSettings.isAutofocus());
+            lightning.setChecked(oldSettings.isLightning());
+            notifications.setChecked(oldSettings.isNotifications());
+
+        }
+    }
+
 }

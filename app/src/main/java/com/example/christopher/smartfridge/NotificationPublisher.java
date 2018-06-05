@@ -12,8 +12,8 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.Calendar;
+import java.util.Date;
 
-@SuppressWarnings("ConstantConditions")
 public class NotificationPublisher extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification-id";
@@ -37,15 +37,19 @@ public class NotificationPublisher extends BroadcastReceiver {
     }
 
     public void scheduleNotification(BestandItem bestandItem, Context context) {
-        Intent intent = new Intent(context, NotificationPublisher.class);
-        intent.putExtra(NotificationPublisher.NOTIFICATION_ID, bestandItem.getId());
-        intent.putExtra(NotificationPublisher.NOTIFICATION, getNotification(bestandItem.getScanItem().getName(), context));
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, bestandItem.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        try {
-            alarmManager.set(AlarmManager.ELAPSED_REALTIME, setTimeInMillis(bestandItem.getAblaufDatum()) - System.currentTimeMillis(), pendingIntent);
-        } catch (NullPointerException e) {
-            e.getStackTrace();
+        OrmDataHelper helper = new OrmDataHelper(context);
+        SettingsItem settingsItem = helper.getSettingItem();
+        if(settingsItem.isNotifications()){
+            Intent intent = new Intent(context, NotificationPublisher.class);
+            intent.putExtra(NotificationPublisher.NOTIFICATION_ID, bestandItem.getId());
+            intent.putExtra(NotificationPublisher.NOTIFICATION, getNotification(bestandItem.getScanItem().getName(), context));
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, bestandItem.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+            try {
+                alarmManager.set(AlarmManager.ELAPSED_REALTIME, setTimeInMillis(bestandItem.getAblaufDatum().getTime()) - System.currentTimeMillis(), pendingIntent);
+            } catch (NullPointerException e) {
+                e.getStackTrace();
+            }
         }
     }
 
@@ -60,7 +64,11 @@ public class NotificationPublisher extends BroadcastReceiver {
         }
     }
 
-    public long setTimeInMillis(Calendar cal) {
+    public long setTimeInMillis(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, date.getDay());
+        cal.set(Calendar.MONTH, date.getMonth());
+        cal.set(Calendar.YEAR, date.getYear());
         return cal.getTimeInMillis();
     }
 

@@ -9,7 +9,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.christopher.smartfridge.Fragments.MainFragment;
@@ -32,7 +31,6 @@ public class DialogBuilder extends AppCompatActivity {
         ormDataHelper = new OrmDataHelper(context);
     }
 
-    @SuppressWarnings("unused")
     public DialogBuilder() {   }
 
     @Override
@@ -62,7 +60,7 @@ public class DialogBuilder extends AppCompatActivity {
 
     public void createNewScanItem(final String barcode) {
         AlertDialog.Builder newScanItem = new AlertDialog.Builder(context);
-        newScanItem.setTitle("Gebe dem Produkt einen Namen:");
+        newScanItem.setTitle("Gib dem Produkt einen Namen:");
         newScanItem.setIcon(R.mipmap.fridge_icon);
         final EditText editText = new EditText(context);
         newScanItem.setView(editText);
@@ -114,7 +112,7 @@ public class DialogBuilder extends AppCompatActivity {
         linearLayout.addView(textView);
         name.setText(scanItem.getName());
         editText.setHint("Name hier eingeben...");
-        textView.setText(context.getResources().getString(R.string.editScanBarcode, scanItem.getBarcode()));
+        textView.setText("Barcode: " + scanItem.getBarcode());
         editScanItem.setView(linearLayout);
         editScanItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             @Override
@@ -165,11 +163,9 @@ public class DialogBuilder extends AppCompatActivity {
         createBestandItem.setTitle("Setze notwendige Details:");
         createBestandItem.setIcon(R.mipmap.fridge_icon);
         final LinearLayout linearLayout = new LinearLayout(context);
-        final ScrollView scrollView = new ScrollView(context);
-        DatePicker datePicker = new DatePicker(context);
-        datePicker.setMinDate(System.currentTimeMillis() - 1000);
+        final DatePicker datePicker = new DatePicker(context);
         TextView textView = new TextView(context);
-        textView.setText(R.string.createNewBestand);
+        textView.setText("Wie viele haben Sie?");
         NumberPicker numberPicker = new NumberPicker(context);
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(1000);
@@ -177,15 +173,14 @@ public class DialogBuilder extends AppCompatActivity {
         linearLayout.addView(datePicker);
         linearLayout.addView(textView);
         linearLayout.addView(numberPicker);
-        scrollView.addView(linearLayout);
-        createBestandItem.setView(scrollView);
+        createBestandItem.setView(linearLayout);
         createBestandItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Calendar date = Calendar.getInstance();
-                date.set(Calendar.DAY_OF_MONTH, ((DatePicker) linearLayout.getChildAt(0)).getDayOfMonth());
-                date.set(Calendar.MONTH, ((DatePicker) linearLayout.getChildAt(0)).getMonth());
-                date.set(Calendar.YEAR, ((DatePicker) linearLayout.getChildAt(0)).getYear());
+                date.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+                date.set(Calendar.MONTH, datePicker.getMonth());
+                date.set(Calendar.YEAR, datePicker.getYear());
                 boolean exist = false;
                 for(BestandItem e : ormDataHelper.getAllBestandItem()) {
                     if(scanItem.getBarcode().equals(e.getScanItem().getBarcode()) && date.get(Calendar.DAY_OF_MONTH) == e.getAblaufDatum().get(Calendar.DAY_OF_MONTH) && date.get(Calendar.MONTH) == e.getAblaufDatum().get(Calendar.MONTH) && date.get(Calendar.YEAR) == e.getAblaufDatum().get(Calendar.YEAR)) {
@@ -196,7 +191,7 @@ public class DialogBuilder extends AppCompatActivity {
                         final LinearLayout linearLayout1 = new LinearLayout(context);
                         linearLayout1.setOrientation(LinearLayout.VERTICAL);
                         TextView textView = new TextView(context);
-                        textView.setText(R.string.createNewBestandExist);
+                        textView.setText("Wie viel mehr haben sie gekauft?");
                         NumberPicker numberPicker1 = new NumberPicker(context);
                         numberPicker1.setMinValue(1);
                         numberPicker1.setMaxValue(1000);
@@ -246,12 +241,10 @@ public class DialogBuilder extends AppCompatActivity {
         editBestandItem.setIcon(R.mipmap.fridge_icon);
         editBestandItem.setTitle("Bearbeite ihre Auswahl:");
         final LinearLayout linearLayout = new LinearLayout(context);
-        final ScrollView scrollView = new ScrollView(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        DatePicker datePicker = new DatePicker(context);
-        datePicker.setMinDate(System.currentTimeMillis() - 1000);
+        final DatePicker datePicker = new DatePicker(context);
         TextView textView = new TextView(context);
-        textView.setText(R.string.editBestandItem);
+        textView.setText("Menge ändern:");
         NumberPicker numberPicker = new NumberPicker(context);
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(bestandItem.getAmount() + 1000);
@@ -259,16 +252,15 @@ public class DialogBuilder extends AppCompatActivity {
         linearLayout.addView(datePicker);
         linearLayout.addView(textView);
         linearLayout.addView(numberPicker);
-        scrollView.addView(linearLayout);
-        editBestandItem.setView(scrollView);
+        editBestandItem.setView(linearLayout);
         datePicker.init(bestandItem.getAblaufDatum().get(Calendar.YEAR), bestandItem.getAblaufDatum().get(Calendar.MONTH), bestandItem.getAblaufDatum().get(Calendar.DAY_OF_MONTH), null);
         editBestandItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Calendar date = Calendar.getInstance();
-                date.set(Calendar.DAY_OF_MONTH, ((DatePicker) linearLayout.getChildAt(0)).getDayOfMonth());
-                date.set(Calendar.MONTH, ((DatePicker) linearLayout.getChildAt(0)).getMonth());
-                date.set(Calendar.YEAR, ((DatePicker) linearLayout.getChildAt(0)).getYear());
+                date.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+                date.set(Calendar.MONTH, datePicker.getMonth());
+                date.set(Calendar.YEAR, datePicker.getYear());
                 ormDataHelper.deleteBestandItem(bestandItem);
                 MainFragment.bestandItemAdapter.remove(bestandItem);
                 deleteNotification(bestandItem);

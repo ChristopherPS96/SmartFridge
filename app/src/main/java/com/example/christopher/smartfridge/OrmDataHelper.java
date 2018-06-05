@@ -15,9 +15,9 @@ public class OrmDataHelper {
 
     public OrmDataHelper(Context context) {
         OrmDbHelper ormDbHelper = new OrmDbHelper(context);
-         scanItemDAO = ormDbHelper.createScanItemDAO();
-         bestandItemDAO = ormDbHelper.createBestandItemDAO();
-         settingsItemsDAO = ormDbHelper.createSettingItemDAO();
+        scanItemDAO = ormDbHelper.createScanItemDAO();
+        bestandItemDAO = ormDbHelper.createBestandItemDAO();
+        settingsItemsDAO = ormDbHelper.createSettingItemDAO();
     }
 
     public void saveScanItem(ScanItem scanItem) {
@@ -39,7 +39,7 @@ public class OrmDataHelper {
     public ArrayList<ScanItem> getAllScanItem() {
         ArrayList<ScanItem> temp = null;
         try {
-             temp = new ArrayList<>(scanItemDAO.queryForAll());
+            temp = new ArrayList<>(scanItemDAO.queryForAll());
         } catch (SQLException ex) {
             ex.getMessage();
         }
@@ -95,6 +95,11 @@ public class OrmDataHelper {
         } catch (SQLException ex) {
             ex.getMessage();
         }
-        return temp.get(0);
+        if(temp.size()>0){
+            return temp.get(0);
+        }
+        else {
+            return null;
+        }
     }
 }
