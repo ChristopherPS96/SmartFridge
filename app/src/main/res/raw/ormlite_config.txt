@@ -49,9 +49,6 @@ fieldName=id
 generatedId=true
 # --field-end--
 # --field-start--
-fieldName=textSize
-# --field-end--
-# --field-start--
 fieldName=autofocus
 # --field-end--
 # --field-start--

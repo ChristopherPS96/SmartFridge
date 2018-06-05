@@ -95,7 +95,7 @@ public class OrmDataHelper {
         } catch (SQLException ex) {
             ex.getMessage();
         }
-        if(temp.size()>0){
+        if(temp != null && temp.size()>0){
             return temp.get(0);
         }
         else {

@@ -103,7 +103,6 @@ public class OptionFragment extends Fragment {
             autofocus.setChecked(oldSettings.isAutofocus());
             lightning.setChecked(oldSettings.isLightning());
             notifications.setChecked(oldSettings.isNotifications());
-
         }
     }
 
