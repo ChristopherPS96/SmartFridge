@@ -37,14 +37,13 @@ public class NotificationPublisher extends BroadcastReceiver {
     }
 
     public void scheduleNotification(BestandItem bestandItem, Context context) {
-         int id = getId(bestandItem);
         Intent intent = new Intent(context, NotificationPublisher.class);
-        intent.putExtra(NotificationPublisher.NOTIFICATION_ID, id);
+        intent.putExtra(NotificationPublisher.NOTIFICATION_ID, bestandItem.getId());
         intent.putExtra(NotificationPublisher.NOTIFICATION, getNotification(bestandItem.getScanItem().getName(), context));
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, bestandItem.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         try {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, setTimeInMillis(bestandItem.getAblaufDatum()), pendingIntent);
+            alarmManager.set(AlarmManager.ELAPSED_REALTIME, setTimeInMillis(bestandItem.getAblaufDatum().getTime()) - System.currentTimeMillis(), pendingIntent);
         } catch (NullPointerException e) {
             e.getStackTrace();
         }
@@ -52,23 +51,13 @@ public class NotificationPublisher extends BroadcastReceiver {
 
     public void deleteNotification(BestandItem bestandItem, Context context) {
         Intent intent = new Intent(context, NotificationPublisher.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, getId(bestandItem), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, bestandItem.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         try {
             alarmManager.cancel(pendingIntent);
         } catch (NullPointerException e) {
             e.getStackTrace();
         }
-    }
-
-    public int getId(BestandItem bestandItem) {
-        String temp = bestandItem.getScanItem().getName() + bestandItem.getAblaufDatum();
-        byte[] bytes = temp.getBytes();
-        StringBuilder id = new StringBuilder();
-        for(byte e : bytes) {
-            id.append(e);
-        }
-        return Integer.parseInt(id.toString());
     }
 
     public long setTimeInMillis(Date date) {
@@ -84,6 +73,7 @@ public class NotificationPublisher extends BroadcastReceiver {
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
             NotificationCompat.Builder nbuilder = new NotificationCompat.Builder(context, "123");
             nbuilder.setContentTitle("Abgelaufen!");
+            nbuilder.setSmallIcon(R.mipmap.fridge_icon_round);
             nbuilder.setContentText(content + " ist abgelaufen!");
             nbuilder.setSmallIcon(R.drawable.ic_launcher_foreground);
             return nbuilder.build();

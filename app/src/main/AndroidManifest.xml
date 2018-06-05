@@ -7,9 +7,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/fridge_icon"
         android:label="SmartFridge"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/fridge_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -25,6 +25,9 @@
 
         <activity
             android:name="com.example.christopher.smartfridge.MainActivity"
+            android:label="SmartFridge">
+        </activity>
+        <activity android:name="com.example.christopher.smartfridge.DialogBuilder"
             android:label="SmartFridge">
         </activity>
     </application>

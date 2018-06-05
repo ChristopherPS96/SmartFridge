@@ -13,17 +13,18 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.example.christopher.smartfridge.Fragments.MainFragment;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class BestandItemAdapter extends ArrayAdapter<BestandItem> implements Filterable {
 
-    private List<BestandItem> items;
     private Context context;
 
     public BestandItemAdapter(Context context, int resource, List<BestandItem> items) {
         super(context, resource, items);
-        this.items = items;
         this.context = context;
     }
 
@@ -41,9 +42,11 @@ public class BestandItemAdapter extends ArrayAdapter<BestandItem> implements Fil
             TextView tt1 = v.findViewById(R.id.name);
             TextView tt2 = v.findViewById(R.id.ablaufdatum);
             TextView tt3 = v.findViewById(R.id.barcode);
+            TextView tt4 = v.findViewById(R.id.amount);
                 tt1.setText(p.getScanItem().getName());
-                tt2.setText("Ablaufdatum: " + p.getAblaufDatum().toString());
+                tt2.setText("Ablaufdatum: " + p.getAblaufDatum().get(Calendar.DAY_OF_MONTH) + "." + (p.getAblaufDatum().get(Calendar.MONTH) + 1) + "." + p.getAblaufDatum().get(Calendar.YEAR));
                 tt3.setText("Barcode: " + p.getScanItem().getBarcode());
+                tt4.setText("Anzahl: " + p.getAmount() + "x");
         }
         return v;
     }
@@ -52,31 +55,35 @@ public class BestandItemAdapter extends ArrayAdapter<BestandItem> implements Fil
     @NonNull
     public Filter getFilter() {
 
-        Filter filter = new Filter() {
+        return new Filter() {
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-               FilterResults results = new FilterResults();
-                ArrayList<BestandItem> bestandItems = new ArrayList<>();
-                constraint = constraint.toString().toLowerCase();
+                FilterResults results = new FilterResults();
                 OrmDataHelper ormDataHelper = new OrmDataHelper(context);
-                for(BestandItem e : ormDataHelper.getAllBestandItem()) {
-                    if(e.getScanItem().getName().toLowerCase().startsWith(constraint.toString())) {
-                        bestandItems.add(e);
+                ArrayList<BestandItem> filterResults = new ArrayList<>();
+                constraint = constraint.toString().toLowerCase();
+                if(constraint.length() > 0) {
+                    for(BestandItem e : ormDataHelper.getAllBestandItem()) {
+                        if(e.getScanItem().getName().toLowerCase().startsWith(constraint.toString())) {
+                            filterResults.add(e);
+                        }
                     }
+                    results.count = filterResults.size();
+                    results.values = filterResults;
+                } else {
+                    results.count = ormDataHelper.getAllBestandItem().size();
+                    results.values = ormDataHelper.getAllBestandItem();
                 }
-                results.count = bestandItems.size();
-                results.values = bestandItems;
-               return results;
+                return results;
             }
 
-            @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                items = (List<BestandItem>) results.values;
+                MainFragment.bestandItemAdapter.clear();
+                MainFragment.bestandItemAdapter.addAll((List<BestandItem>) results.values);
                 notifyDataSetChanged();
             }
         };
-        return filter;
     }
 }

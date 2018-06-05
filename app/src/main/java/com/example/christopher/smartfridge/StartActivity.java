@@ -1,16 +1,26 @@
 
 package com.example.christopher.smartfridge;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import pl.droidsonroids.gif.GifTextView;
+import pl.droidsonroids.gif.GifTextureView;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -18,19 +28,39 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        if(shouldAskPermissions()) {
+            askPermissions();
+        }
         findViewById(R.id.imageView).setOnTouchListener(new OnSwipeTouchListener(this));
+
+
+        RotateAnimation rotate = new RotateAnimation(0, 720, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setInterpolator(new LinearInterpolator());
+
+        TranslateAnimation translate = new TranslateAnimation(0, 0, 500, 0 );
+
+        GifTextView image= findViewById(R.id.logoImage);
+
+        AnimationSet set = new AnimationSet(false);
+        set.addAnimation(rotate);
+        set.addAnimation(translate);
+        set.setDuration(1500);
+
+        image.startAnimation(set);
     }
 
+    // bei swipe Kühlschrank auf/zu
     public class OnSwipeTouchListener implements View.OnTouchListener {
 
         private final GestureDetector gestureDetector;
+        Button start = findViewById(R.id.startbutton);
+
 
         public OnSwipeTouchListener(Context context) {
             gestureDetector = new GestureDetector(context, new GestureListener());
         }
 
         public void onSwipeLeft() {
-            Button start = findViewById(R.id.startbutton);
             start.setVisibility(View.INVISIBLE);
 
             FloatingActionButton exit = findViewById(R.id.exitFab);
@@ -41,8 +71,11 @@ public class StartActivity extends AppCompatActivity {
         }
 
         public void onSwipeRight() {
-            Button start = findViewById(R.id.startbutton);
             start.setVisibility(View.VISIBLE);
+            RotateAnimation rotate = new RotateAnimation(180, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            rotate.setInterpolator(new LinearInterpolator());
+            rotate.setDuration(250);
+            start.startAnimation(rotate);
 
             FloatingActionButton exit = findViewById(R.id.exitFab);
             exit.setVisibility(View.INVISIBLE);
@@ -88,5 +121,20 @@ public class StartActivity extends AppCompatActivity {
 
     public void onExitClick(View view){
         finish();
+    }
+
+    protected boolean shouldAskPermissions() {      //Quelle: https://stackoverflow.com/questions/8854359/exception-open-failed-eacces-permission-denied-on-android
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+
+    @TargetApi(23)
+    protected void askPermissions() {       //Quelle: https://stackoverflow.com/questions/8854359/exception-open-failed-eacces-permission-denied-on-android
+        String[] permissions = {
+                "android.permission.CAMERA",
+                "android.permission.READ_EXTERNAL_STORAGE",
+                "android.permission.WRITE_EXTERNAL_STORAGE"
+        };
+        int requestCode = 200;
+        requestPermissions(permissions, requestCode);
     }
 }

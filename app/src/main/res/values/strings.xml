@@ -5,4 +5,11 @@
     <string name="title_activity_scan_item">ScanItemActivity</string>
     <string name="Fridge">Fridge</string>
     <string name="start">Start</string>
+    <string name="suche">Suche...</string>
+    <string name="benachrichtigungseinstellungen">Benachrichtigungseinstellungen</string>
+    <string name="notifications">Notifications</string>
+    <string name="anzeige_einstellungen">Anzeige Einstellungen</string>
+    <string name="textgr_e">Textgröße</string>
+    <string name="hier_schriftgr_e_eintragen">Hier Schriftgröße eintragen</string>
+    <string name="barcode_scanner_einstellungen">Barcode-Scanner Einstellungen</string>
 </resources>
