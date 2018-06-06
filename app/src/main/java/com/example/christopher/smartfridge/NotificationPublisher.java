@@ -4,10 +4,12 @@ import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -30,7 +32,7 @@ public class NotificationPublisher {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, bestandItem.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             try {
-                alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 2000, pendingIntent);
+                alarmManager.set(AlarmManager.RTC, bestandItem.getAblaufDatum().getTimeInMillis(), pendingIntent);
             } catch (NullPointerException e) {
                 e.getStackTrace();
             }
@@ -57,16 +59,15 @@ public class NotificationPublisher {
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
             NotificationCompat.Builder nbuilder = new NotificationCompat.Builder(context, "123");
             nbuilder.setContentTitle("Abgelaufen!");
-            nbuilder.setSmallIcon(R.mipmap.fridge_icon_round);
+            nbuilder.setSmallIcon(R.mipmap.fridge_icon);
             nbuilder.setContentText(content + " ist abgelaufen!");
-            nbuilder.setSmallIcon(R.drawable.ic_launcher_foreground);
             return nbuilder.build();
         }
         else {
             Notification.Builder builder = new Notification.Builder(context);
             builder.setContentTitle("Abgelaufen!");
             builder.setContentText(content + " ist abgelaufen!");
-            builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+            builder.setSmallIcon(R.mipmap.fridge_icon);
             return builder.build();
         }
 

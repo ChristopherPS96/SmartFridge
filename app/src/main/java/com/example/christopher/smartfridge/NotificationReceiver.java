@@ -15,7 +15,7 @@ public class NotificationReceiver extends BroadcastReceiver {
             NotificationChannel channel;
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                channel = new NotificationChannel("123", "Channel", NotificationManager.IMPORTANCE_DEFAULT);
+                channel = new NotificationChannel("123", "SmartFridge", NotificationManager.IMPORTANCE_DEFAULT);
                 notificationManager.createNotificationChannel(channel);
             }
             Notification notification = intent.getParcelableExtra(NotificationPublisher.NOTIFICATION);

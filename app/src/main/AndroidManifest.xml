@@ -31,6 +31,10 @@
         <activity android:name="com.example.christopher.smartfridge.DialogBuilder"
             android:label="SmartFridge">
         </activity>
+        <receiver
+            android:name=".NotificationReceiver">
+        </receiver>
     </application>
+
 
 </manifest>
