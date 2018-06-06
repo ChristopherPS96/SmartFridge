@@ -18,4 +18,12 @@
     <string name="editScanBarcode">Barcode: %1$s</string>
     <string name="amountBestandItem">Anzahl: %1$dx</string>
     <string name="ablaufDatumBestandItem">Ablaufdatum: %1$d.%2$d.%3$d</string>
+    <string name="bestand_kopieren">Bestand kopieren</string>
+    <string name="einstellungen_speichern">Einstellungen speichern</string>
+    <string name="blitz">Blitz</string>
+    <string name="autofocus">AutoFocus</string>
+    <string name="name">name</string>
+    <string name="amount">amount</string>
+    <string name="barcode">barcode</string>
+    <string name="ablaufdatum">ablaufdatum</string>
 </resources>
