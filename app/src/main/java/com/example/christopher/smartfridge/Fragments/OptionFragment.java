@@ -49,27 +49,12 @@ public class OptionFragment extends Fragment {
         notifications = view.findViewById(R.id.notifications);
         lightning = view.findViewById(R.id.lightning);
 
-        //setzt die alten Settings für User zur Änderung -----> noch nicht?!
+        //setzt die alten Settings für User zur Änderung
         setOldSettings();
-
-        final OrmDataHelper ormDataHelper = new OrmDataHelper(getActivity());
         copyBestand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ormDataHelper.getAllBestandItem() != null && ormDataHelper.getAllBestandItem().size() > 0) {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append("Kühlschrankinhalt: \n");
-                    for(BestandItem e : ormDataHelper.getAllBestandItem()) {
-                        stringBuilder.append(e.getAmount() + " Mal " + e.getScanItem().getName() + ", welches am "
-                                + e.getAblaufDatum().get(Calendar.DAY_OF_MONTH) + "." + (e.getAblaufDatum().get(Calendar.MONTH) + 1) + "." + e.getAblaufDatum().get(Calendar.YEAR) + " abläuft! \n");
-                    }
-                    ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("Kühlschrankbestand", stringBuilder.toString());
-                    clipboard.setPrimaryClip(clip);
-                    Toast.makeText(getActivity(), "Inhalt wurde kopiert", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), "Bestand ist leer!", Toast.LENGTH_LONG).show();
-                }
+                copyBestand();
             }
         });
         saveSettings.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +64,24 @@ public class OptionFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public void copyBestand() {
+        OrmDataHelper ormDataHelper = new OrmDataHelper(getActivity());
+        if(ormDataHelper.getAllBestandItem() != null && ormDataHelper.getAllBestandItem().size() > 0) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("Kühlschrankinhalt: \n");
+            for(BestandItem e : ormDataHelper.getAllBestandItem()) {
+                stringBuilder.append(e.getAmount() + " Mal " + e.getScanItem().getName() + ", welches am "
+                        + e.getAblaufDatum().get(Calendar.DAY_OF_MONTH) + "." + (e.getAblaufDatum().get(Calendar.MONTH) + 1) + "." + e.getAblaufDatum().get(Calendar.YEAR) + " abläuft! \n");
+            }
+            ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Kühlschrankbestand", stringBuilder.toString());
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(getActivity(), "Inhalt wurde kopiert", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Bestand ist leer!", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void saveSettings(){
@@ -107,7 +110,6 @@ public class OptionFragment extends Fragment {
             autofocus.setChecked(false);
             lightning.setChecked(false);
             notifications.setChecked(false);
-            saveSettings();
         }
     }
 
