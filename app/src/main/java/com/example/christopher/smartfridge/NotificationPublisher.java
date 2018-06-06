@@ -38,7 +38,7 @@ public class NotificationPublisher extends BroadcastReceiver {
 
     public void scheduleNotification(BestandItem bestandItem, Context context) {
         OrmDataHelper helper = new OrmDataHelper(context);
-        SettingsItem settingsItem = helper.getSettingItem();
+        SettingsItem settingsItem = helper.getSettingItem().get(0);
         if(settingsItem.isNotifications()){
             Intent intent = new Intent(context, NotificationPublisher.class);
             intent.putExtra(NotificationPublisher.NOTIFICATION_ID, bestandItem.getId());

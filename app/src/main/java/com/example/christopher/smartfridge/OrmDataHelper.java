@@ -88,18 +88,13 @@ public class OrmDataHelper {
         }
     }
 
-    public SettingsItem getSettingItem() {
+    public ArrayList<SettingsItem> getSettingItem() {
         ArrayList<SettingsItem> temp = null;
         try {
             temp = new ArrayList<>(settingsItemsDAO.queryForAll());
         } catch (SQLException ex) {
             ex.getMessage();
         }
-        if(temp != null && temp.size()>0){
-            return temp.get(0);
-        }
-        else {
-            return null;
-        }
+       return temp;
     }
 }

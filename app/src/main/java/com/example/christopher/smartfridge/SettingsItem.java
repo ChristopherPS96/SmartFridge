@@ -19,7 +19,7 @@ public class SettingsItem {
 
     }
 
-    public SettingsItem(int textSize, boolean autofocus,  boolean lightning, boolean notifications){
+    public SettingsItem(boolean autofocus,  boolean lightning, boolean notifications){
         this.autofocus = autofocus;
         this.lightning = lightning;
         this.notifications = notifications;

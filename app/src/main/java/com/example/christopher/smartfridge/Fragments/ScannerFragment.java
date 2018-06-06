@@ -53,7 +53,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
         mScannerView.setResultHandler(this);
         //enable/disable autofocus & flash
         if(helper.getSettingItem() != null) {
-            SettingsItem settings = helper.getSettingItem();
+            SettingsItem settings = helper.getSettingItem().get(0);
             mScannerView.setAutoFocus(settings.isAutofocus());
             mScannerView.setFlash(settings.isLightning());
         }
