@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.Calendar;
@@ -50,7 +51,7 @@ public class NotificationPublisher extends BroadcastReceiver {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, bestandItem.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             try {
-                alarmManager.set(AlarmManager.ELAPSED_REALTIME, setTimeInMillis(bestandItem.getAblaufDatum()) - System.currentTimeMillis(), pendingIntent);
+                alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 2000, pendingIntent);
             } catch (NullPointerException e) {
                 e.getStackTrace();
             }

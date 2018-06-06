@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         MyPageAdapter adapter = new MyPageAdapter(getSupportFragmentManager());
         myPager = findViewById(R.id.pager);
         myPager.setAdapter(adapter);
-        myPager.setOffscreenPageLimit(3);
+        myPager.setOffscreenPageLimit(1);
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(myPager);
     }
