@@ -19,6 +19,7 @@ import com.example.christopher.smartfridge.OrmDataHelper;
 import com.example.christopher.smartfridge.R;
 import com.example.christopher.smartfridge.SettingsItem;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class OptionFragment extends Fragment {
@@ -42,13 +43,14 @@ public class OptionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_settings, container, false);
+        super.onCreate(savedInstanceState);
         Button copyBestand = view.findViewById(R.id.bestandCopy);
         Button saveSettings = view.findViewById(R.id.saveSettings);
         autofocus = view.findViewById(R.id.autofocus);
         notifications = view.findViewById(R.id.notifications);
         lightning = view.findViewById(R.id.lightning);
 
-        //setzt die alten Settings für User zur Änderung
+        //setzt die alten Settings für User zur Änderung -----> noch nicht?!
         setOldSettings();
 
         final OrmDataHelper ormDataHelper = new OrmDataHelper(getActivity());
@@ -83,26 +85,32 @@ public class OptionFragment extends Fragment {
     private void saveSettings(){
         OrmDataHelper helper = new OrmDataHelper(getActivity());
         //falls Settings vorhanden -> löschen, dann neue Settings
-        if(helper.getSettingItem() != null){
-            helper.deleteSettingItem(helper.getSettingItem());
+        if(helper.getSettingItem() != null && helper.getSettingItem().size() > 0){
+            helper.deleteSettingItem(helper.getSettingItem().get(0));
         }
         SettingsItem settingsItem = new SettingsItem();
         settingsItem.setAutofocus(autofocus.isChecked());
         settingsItem.setLightning(lightning.isChecked());
         settingsItem.setNotifications(notifications.isChecked());
-
+        Toast.makeText(getActivity(), "Einstellungen wurden gespeichert!", Toast.LENGTH_LONG).show();
 
         helper.saveSettingItem(settingsItem);
-
+//        Toast.makeText(getActivity(), String.valueOf(helper.getSettingItem().get(0).isAutofocus()), Toast.LENGTH_LONG).show();
     }
 
     private void setOldSettings(){
         OrmDataHelper helper = new OrmDataHelper(getActivity());
-        if(helper.getSettingItem()!= null){
-            SettingsItem oldSettings = helper.getSettingItem();
-            autofocus.setChecked(oldSettings.isAutofocus());
-            lightning.setChecked(oldSettings.isLightning());
-            notifications.setChecked(oldSettings.isNotifications());
+        if(helper.getSettingItem()!= null && helper.getSettingItem().size() > 0){
+            ArrayList<SettingsItem> oldSettings = helper.getSettingItem();
+            autofocus.setChecked(oldSettings.get(0).isAutofocus());
+            lightning.setChecked(oldSettings.get(0).isLightning());
+            notifications.setChecked(oldSettings.get(0).isNotifications());
+        }
+        else{
+            autofocus.setChecked(false);
+            lightning.setChecked(false);
+            notifications.setChecked(false);
+            saveSettings();
         }
     }
 

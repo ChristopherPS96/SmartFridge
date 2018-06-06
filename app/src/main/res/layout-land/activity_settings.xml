@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
@@ -13,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="37dp"
         android:paddingLeft="10dp"
+        tools:ignore="RtlHardcoded,RtlSymmetry"
         android:text="@string/barcode_scanner_einstellungen"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
@@ -26,7 +28,8 @@
             android:layout_width="393dp"
             android:layout_height="match_parent"
             android:paddingLeft="20dp"
-            android:text="AutoFocus"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
+            android:text="@string/autofocus"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -45,7 +48,8 @@
             android:layout_width="393dp"
             android:layout_height="match_parent"
             android:paddingLeft="20dp"
-            android:text="Blitz"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
+            android:text="@string/blitz"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -74,6 +78,7 @@
             android:layout_width="394dp"
             android:layout_height="match_parent"
             android:paddingLeft="20dp"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
             android:text="@string/notifications"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
@@ -87,19 +92,22 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:paddingLeft="5dp" >
+        android:paddingLeft="5dp"
+        tools:ignore="RtlHardcoded,RtlSymmetry">
 
         <Button
             android:id="@+id/bestandCopy"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Bestand kopieren" />
+            android:text="@string/bestand_kopieren"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/saveSettings"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Einstellungen speichern" />
+            android:text="@string/einstellungen_speichern"
+            tools:ignore="ButtonStyle" />
     </TableRow>
 
 </LinearLayout>

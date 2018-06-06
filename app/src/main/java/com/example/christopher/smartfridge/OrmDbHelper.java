@@ -24,8 +24,7 @@ public class OrmDbHelper extends OrmLiteSqliteOpenHelper {
     public static final int DB_VERSION = 1;
 
     public OrmDbHelper(Context context) {
-        super(context, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()
-                + File.separator + DB_NAME, null, DB_VERSION, R.raw.ormlite_config);
+        super(context, DB_NAME, null, DB_VERSION, R.raw.ormlite_config);
     }
 
     @Override

@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         MyPageAdapter adapter = new MyPageAdapter(getSupportFragmentManager());
         myPager = findViewById(R.id.pager);
         myPager.setAdapter(adapter);
-        myPager.setOffscreenPageLimit(3);
+        myPager.setOffscreenPageLimit(1);
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(myPager);
     }
@@ -28,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(myPager.getCurrentItem() == 0) {
-            moveTaskToBack(true);
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
             super.onBackPressed();
         } else {
             myPager.setCurrentItem(myPager.getCurrentItem() - 1);
