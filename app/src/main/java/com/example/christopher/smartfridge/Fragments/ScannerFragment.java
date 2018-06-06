@@ -12,13 +12,19 @@ import android.widget.Toast;
 import com.example.christopher.smartfridge.DialogBuilder;
 import com.example.christopher.smartfridge.OrmDataHelper;
 import com.example.christopher.smartfridge.ScanItem;
+import com.example.christopher.smartfridge.SettingsItem;
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerFragment extends Fragment implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
     private OrmDataHelper ormDataHelper;
+
 
 
     @Override
@@ -39,7 +45,20 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     @Override
     public void onResume() {
         super.onResume();
+        OrmDataHelper helper = new OrmDataHelper(getContext());
+        ArrayList<BarcodeFormat> formats = new ArrayList<BarcodeFormat>();
+        formats.add(BarcodeFormat.EAN_8);
+        formats.add(BarcodeFormat.EAN_13);
+
         mScannerView.setResultHandler(this);
+        //enable/disable autofocus & flash
+        if(helper.getSettingItem() != null) {
+            SettingsItem settings = helper.getSettingItem();
+            mScannerView.setAutoFocus(settings.isAutofocus());
+            mScannerView.setFlash(settings.isLightning());
+        }
+        //allow suitable barcodes only
+        mScannerView.setFormats(formats);
         mScannerView.startCamera();
     }
 

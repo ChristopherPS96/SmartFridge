@@ -9,6 +9,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.christopher.smartfridge.Fragments.MainFragment;
@@ -61,7 +62,7 @@ public class DialogBuilder extends AppCompatActivity {
 
     public void createNewScanItem(final String barcode) {
         AlertDialog.Builder newScanItem = new AlertDialog.Builder(context);
-        newScanItem.setTitle("Gebe dem Produkt einen Namen:");
+        newScanItem.setTitle("Gib dem Produkt einen Namen:");
         newScanItem.setIcon(R.mipmap.fridge_icon);
         final EditText editText = new EditText(context);
         newScanItem.setView(editText);
@@ -164,6 +165,7 @@ public class DialogBuilder extends AppCompatActivity {
         createBestandItem.setTitle("Setze notwendige Details:");
         createBestandItem.setIcon(R.mipmap.fridge_icon);
         final LinearLayout linearLayout = new LinearLayout(context);
+        final ScrollView scrollView = new ScrollView(context);
         DatePicker datePicker = new DatePicker(context);
         datePicker.setMinDate(System.currentTimeMillis() - 1000);
         TextView textView = new TextView(context);
@@ -175,7 +177,8 @@ public class DialogBuilder extends AppCompatActivity {
         linearLayout.addView(datePicker);
         linearLayout.addView(textView);
         linearLayout.addView(numberPicker);
-        createBestandItem.setView(linearLayout);
+        scrollView.addView(linearLayout);
+        createBestandItem.setView(scrollView);
         createBestandItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -243,6 +246,7 @@ public class DialogBuilder extends AppCompatActivity {
         editBestandItem.setIcon(R.mipmap.fridge_icon);
         editBestandItem.setTitle("Bearbeite ihre Auswahl:");
         final LinearLayout linearLayout = new LinearLayout(context);
+        final ScrollView scrollView = new ScrollView(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         DatePicker datePicker = new DatePicker(context);
         datePicker.setMinDate(System.currentTimeMillis() - 1000);
@@ -255,7 +259,8 @@ public class DialogBuilder extends AppCompatActivity {
         linearLayout.addView(datePicker);
         linearLayout.addView(textView);
         linearLayout.addView(numberPicker);
-        editBestandItem.setView(linearLayout);
+        scrollView.addView(linearLayout);
+        editBestandItem.setView(scrollView);
         datePicker.init(bestandItem.getAblaufDatum().get(Calendar.YEAR), bestandItem.getAblaufDatum().get(Calendar.MONTH), bestandItem.getAblaufDatum().get(Calendar.DAY_OF_MONTH), null);
         editBestandItem.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             @Override

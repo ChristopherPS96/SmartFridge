@@ -84,10 +84,22 @@
             android:layout_height="match_parent" />
     </TableRow>
 
-    <Button
-        android:id="@+id/bestandCopy"
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bestand kopieren" />
+        android:layout_height="55dp"
+        android:paddingLeft="5dp" >
+
+        <Button
+            android:id="@+id/bestandCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Bestand kopieren" />
+
+        <Button
+            android:id="@+id/saveSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Einstellungen speichern" />
+    </TableRow>
 
 </LinearLayout>

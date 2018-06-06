@@ -44,7 +44,7 @@ public class BestandItemAdapter extends ArrayAdapter<BestandItem> implements Fil
             TextView tt3 = v.findViewById(R.id.barcode);
             TextView tt4 = v.findViewById(R.id.amount);
                 tt1.setText(p.getScanItem().getName());
-                tt2.setText(context.getResources().getString(R.string.ablaufDatumBestandItem, p.getAblaufDatum().get(Calendar.DAY_OF_MONTH), p.getAblaufDatum().get(Calendar.MONTH), p.getAblaufDatum().get(Calendar.YEAR)));
+                tt2.setText(context.getResources().getString(R.string.ablaufDatumBestandItem, p.getAblaufDatum().get(Calendar.DAY_OF_MONTH) +1, p.getAblaufDatum().get(Calendar.MONTH)+1, p.getAblaufDatum().get(Calendar.YEAR)));
                 tt3.setText(context.getResources().getString(R.string.editScanBarcode, p.getScanItem().getBarcode()));
                 tt4.setText(context.getResources().getString(R.string.amountBestandItem, p.getAmount()));
         }
