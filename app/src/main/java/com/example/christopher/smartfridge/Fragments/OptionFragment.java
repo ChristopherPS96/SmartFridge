@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -92,10 +91,8 @@ public class OptionFragment extends Fragment {
         settingsItem.setAutofocus(autofocus.isChecked());
         settingsItem.setLightning(lightning.isChecked());
         settingsItem.setNotifications(notifications.isChecked());
-        Toast.makeText(getActivity(), "Einstellungen wurden gespeichert!", Toast.LENGTH_LONG).show();
-
+        Toast.makeText(getActivity(), "Einstellungen wurden gespeichert! Neustart für Effekt!", Toast.LENGTH_LONG).show();
         helper.saveSettingItem(settingsItem);
-//        Toast.makeText(getActivity(), String.valueOf(helper.getSettingItem().get(0).isAutofocus()), Toast.LENGTH_LONG).show();
     }
 
     private void setOldSettings(){
