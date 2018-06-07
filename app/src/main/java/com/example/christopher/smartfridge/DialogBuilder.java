@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.christopher.smartfridge.Fragments.MainFragment;
 import com.example.christopher.smartfridge.Fragments.ScanFragment;
+import com.example.christopher.smartfridge.Fragments.ScannerFragment;
 
 import java.util.Calendar;
 
@@ -70,8 +71,10 @@ public class DialogBuilder extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(editText.getText().toString().length() > 2) {
-                    ormDataHelper.saveScanItem(new ScanItem(barcode, editText.getText().toString()));
-                    ScanFragment.scanItemAdapter.add(new ScanItem(barcode, editText.getText().toString()));
+                    ScanItem temp = new ScanItem(barcode, editText.getText().toString());
+                    ormDataHelper.saveScanItem(temp);
+                    ScanFragment.scanItemAdapter.add(temp);
+                    createNewBestandItem(temp);
                 } else {
                     AlertDialog.Builder revert = new AlertDialog.Builder(context);
                     revert.setTitle("Eingabe zu kurz. Wiederholen?");
