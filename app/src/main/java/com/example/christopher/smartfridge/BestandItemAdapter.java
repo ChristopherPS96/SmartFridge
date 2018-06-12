@@ -1,4 +1,7 @@
-//Christopher Schwandt SMIB + Quelle: https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view
+/*
+** Erstellt von Christopher Schwandt, Anna Rochow, Jennifer Tönjes und Alina Pohl der SMIB
+ */
+// Quelle: https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view
 // 2. Quelle: https://stackoverflow.com/questions/14663725/list-view-filter-android
 
 package com.example.christopher.smartfridge;
@@ -21,7 +24,7 @@ import java.util.List;
 
 public class BestandItemAdapter extends ArrayAdapter<BestandItem> implements Filterable {
 
-    private Context context;
+    private final Context context;
 
     public BestandItemAdapter(Context context, int resource, List<BestandItem> items) {
         super(context, resource, items);
@@ -39,6 +42,7 @@ public class BestandItemAdapter extends ArrayAdapter<BestandItem> implements Fil
         }
         BestandItem p = getItem(position);
         if (p != null) {
+            //setzt und beschreibt die einzelnen Felder der Liste
             TextView tt1 = v.findViewById(R.id.name);
             TextView tt2 = v.findViewById(R.id.ablaufdatum);
             TextView tt3 = v.findViewById(R.id.barcode);
@@ -53,6 +57,7 @@ public class BestandItemAdapter extends ArrayAdapter<BestandItem> implements Fil
 
     @Override
     @NonNull
+//erstellen des Filters und seiner Funktionen und Rückgabe
     public Filter getFilter() {
 
         return new Filter() {

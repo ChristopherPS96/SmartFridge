@@ -1,3 +1,7 @@
+/*
+ ** Erstellt von Christopher Schwandt, Anna Rochow, Jennifer Tönjes und Alina Pohl der SMIB
+ */
+
 package com.example.christopher.smartfridge;
 
 import com.j256.ormlite.field.DataType;

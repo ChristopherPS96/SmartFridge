@@ -1,4 +1,7 @@
-//Christopher Schwandt SMIB + Quelle: https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view
+/*
+ ** Erstellt von Christopher Schwandt, Anna Rochow, Jennifer Tönjes und Alina Pohl der SMIB
+ */
+// Quelle: https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view
 
 package com.example.christopher.smartfridge;
 
@@ -19,7 +22,7 @@ import java.util.List;
 
 public class ScanItemAdapter extends ArrayAdapter<ScanItem> implements Filterable {
 
-    private Context context;
+    private final Context context;
 
     public ScanItemAdapter(Context context, int resource, List<ScanItem> items) {
         super(context, resource, items);
@@ -48,6 +51,7 @@ public class ScanItemAdapter extends ArrayAdapter<ScanItem> implements Filterabl
 
     @Override
     @NonNull
+    //schreibt und bearbeitet den Filter für die Liste mit Funktionen und Rückgabe Inhalt
     public Filter getFilter() {
 
         return new Filter() {

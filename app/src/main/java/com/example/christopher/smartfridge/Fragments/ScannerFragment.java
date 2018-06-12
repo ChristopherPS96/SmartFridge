@@ -1,3 +1,9 @@
+/*
+ ** Erstellt von Christopher Schwandt, Anna Rochow, Jennifer Tönjes und Alina Pohl der SMIB
+ *  Quelle: github.com/dm77/barcodescanner
+ */
+
+
 package com.example.christopher.smartfridge.Fragments;
 
 import android.os.Bundle;
@@ -24,8 +30,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     private ZXingScannerView mScannerView;
     private OrmDataHelper ormDataHelper;
 
-
-
+    //notwenidge Variablen setzen und die Ansicht erstellen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mScannerView = new ZXingScannerView(getActivity());
@@ -33,6 +38,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
         return mScannerView;
     }
 
+    //gibt neue Instance vom ScannerFragment zurück
     public static ScannerFragment newInstance(String text) {
         ScannerFragment scannerFragment = new ScannerFragment();
         Bundle bundle = new Bundle();
@@ -41,11 +47,16 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
         return scannerFragment;
     }
 
+    //startet Barcodescanner und setzt notwendige Einstellungen
     @Override
     public void onResume() {
         super.onResume();
+        setupCamera();
+    }
+
+    public void setupCamera() {
         OrmDataHelper helper = new OrmDataHelper(getContext());
-        ArrayList<BarcodeFormat> formats = new ArrayList<BarcodeFormat>();
+        ArrayList<BarcodeFormat> formats = new ArrayList<>();
         formats.add(BarcodeFormat.EAN_8);
         formats.add(BarcodeFormat.EAN_13);
 
@@ -61,12 +72,14 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
         mScannerView.startCamera();
     }
 
+    //pausiert Kamera und macht damit Speicher frei
     @Override
     public void onPause() {
         super.onPause();
         mScannerView.stopCamera();
     }
 
+    //verarbeitet die Ergebnisse der Kamera und liefer diese weiter
     @Override
     public void handleResult(Result rawResult) {
         boolean exists = false;

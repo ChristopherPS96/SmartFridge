@@ -1,5 +1,7 @@
+/*
+ ** Erstellt von Christopher Schwandt, Anna Rochow, Jennifer Tönjes und Alina Pohl der SMIB
+ */
 package com.example.christopher.smartfridge.Fragments;
-
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,12 +22,14 @@ import com.example.christopher.smartfridge.ScanItem;
 import com.example.christopher.smartfridge.ScanItemAdapter;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ScanFragment extends Fragment {
 
-    public static ArrayList<ScanItem> scanItems = new ArrayList<>();
+    private static final ArrayList<ScanItem> scanItems = new ArrayList<>();
     public static ScanItemAdapter scanItemAdapter;
 
+    //gibt neue Instance vom ScanFragment zurück
     public static ScanFragment newInstance(String text) {
         ScanFragment scanFragment = new ScanFragment();
         Bundle bundle = new Bundle();
@@ -35,26 +39,25 @@ public class ScanFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
     @SuppressWarnings("ConstantConditions")
+    //Setzt notwendige Variablen und bevölkert die Liste mit vorhanden ScanItems
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_scan_item, container, false);
+        OrmDataHelper ormDataHelper = new OrmDataHelper(getActivity());
+        setupPage(view);
+        scanItemAdapter.clear();
+        scanItemAdapter.addAll(ormDataHelper.getAllScanItem());
+        return view;
+    }
+
+    //setzt notwenidge Buttons und Variablen der Seite
+    public void setupPage(View view) {
         FloatingActionButton fab = view.findViewById(R.id.fabScan);
         SearchView searchView = view.findViewById(R.id.filterScan);
-        OrmDataHelper ormDataHelper = new OrmDataHelper(getActivity());
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewPager vp =  getActivity().findViewById(R.id.pager);
+                ViewPager vp =  Objects.requireNonNull(getActivity()).findViewById(R.id.pager);
                 vp.setCurrentItem(3);
             }
         });
@@ -82,8 +85,5 @@ public class ScanFragment extends Fragment {
                 return false;
             }
         });
-        scanItemAdapter.clear();
-        scanItemAdapter.addAll(ormDataHelper.getAllScanItem());
-        return view;
     }
 }

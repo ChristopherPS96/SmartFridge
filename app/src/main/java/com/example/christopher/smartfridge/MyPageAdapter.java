@@ -1,5 +1,7 @@
+/*
+ ** Erstellt von Christopher Schwandt, Anna Rochow, Jennifer Tönjes und Alina Pohl der SMIB
+ */
 package com.example.christopher.smartfridge;
-
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,13 +12,14 @@ import com.example.christopher.smartfridge.Fragments.OptionFragment;
 import com.example.christopher.smartfridge.Fragments.ScanFragment;
 import com.example.christopher.smartfridge.Fragments.ScannerFragment;
 
-public class MyPageAdapter extends FragmentPagerAdapter {
+class MyPageAdapter extends FragmentPagerAdapter {
 
 @SuppressWarnings("WeakerAccess")
     public MyPageAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
 
+    //holt vorgegebene Fragments zurück und gibt Reihenfolge in der App vor
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -33,11 +36,13 @@ public class MyPageAdapter extends FragmentPagerAdapter {
         }
     }
 
+    //gibt Anzahl der Fragments an
     @Override
     public int getCount() {
         return 4;
     }
 
+    //gibt den TabLayouts den notwendigen Titel
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {

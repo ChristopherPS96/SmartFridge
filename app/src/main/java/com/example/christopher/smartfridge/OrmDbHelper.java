@@ -1,10 +1,12 @@
-//Christopher Schwandt SMIB + Folie aus Mobile Systeme
+/*
+ ** Erstellt von Christopher Schwandt, Anna Rochow, Jennifer Tönjes und Alina Pohl der SMIB
+ */
+//Quelle: Folie aus Mobile Systeme
 
 package com.example.christopher.smartfridge;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -13,7 +15,6 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import java.io.File;
 import java.sql.SQLException;
 
 @SuppressWarnings("WeakerAccess")

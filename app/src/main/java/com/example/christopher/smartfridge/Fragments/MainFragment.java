@@ -1,3 +1,7 @@
+/*
+** Erstellt von Christopher Schwandt, Anna Rochow, Jennifer Tönjes und Alina Pohl der SMIB
+ */
+
 package com.example.christopher.smartfridge.Fragments;
 
 import android.os.Bundle;
@@ -22,9 +26,10 @@ import java.util.ArrayList;
 public class MainFragment extends Fragment {
 
     private OrmDataHelper ormDataHelper;
-    public static ArrayList<BestandItem> bestandList = new ArrayList<>();
+    private static final ArrayList<BestandItem> bestandList = new ArrayList<>();
     public static BestandItemAdapter bestandItemAdapter;
 
+    //gibt neue Instance des MainFragments zurück
     public static MainFragment newInstance(String text) {
         MainFragment mainFragment = new MainFragment();
         Bundle bundle = new Bundle();
@@ -39,9 +44,18 @@ public class MainFragment extends Fragment {
         ormDataHelper = new OrmDataHelper(getActivity());
     }
 
+    //setzt notwendige Werte der Seite und fügt vorhandene BestandItem der Liste hinzu
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_maincontent, container, false);
+        setupPage(view);
+        bestandItemAdapter.clear();
+        bestandItemAdapter.addAll(ormDataHelper.getAllBestandItem());
+        return view;
+    }
+
+    //setzt Button und OnClickListener
+    public void setupPage(View view) {
         FloatingActionButton fab = view.findViewById(R.id.fab);
         ListView bestandListView = view.findViewById(R.id.bestandList);
         SearchView searchView = view.findViewById(R.id.filter);
@@ -77,8 +91,5 @@ public class MainFragment extends Fragment {
                }
             }
         });
-        bestandItemAdapter.clear();
-        bestandItemAdapter.addAll(ormDataHelper.getAllBestandItem());
-        return view;
     }
 }

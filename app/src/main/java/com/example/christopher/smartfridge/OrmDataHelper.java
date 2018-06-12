@@ -1,3 +1,7 @@
+/*
+ ** Erstellt von Christopher Schwandt, Anna Rochow, Jennifer Tönjes und Alina Pohl der SMIB
+ */
+
 package com.example.christopher.smartfridge;
 
 import android.content.Context;
@@ -7,11 +11,12 @@ import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+//gesamte Klasse ist eine Helferklasse mit Ansammlungen verschiedenener Methoden zur Interaktion wie Speichern, Löschen oder Sammeln mit der Datenbank.
 public class OrmDataHelper {
 
-    private Dao<ScanItem, Integer> scanItemDAO;
-    private Dao<BestandItem, Integer> bestandItemDAO;
-    private Dao<SettingsItem, Integer> settingsItemsDAO;
+    private final Dao<ScanItem, Integer> scanItemDAO;
+    private final Dao<BestandItem, Integer> bestandItemDAO;
+    private final Dao<SettingsItem, Integer> settingsItemsDAO;
 
     public OrmDataHelper(Context context) {
         OrmDbHelper ormDbHelper = new OrmDbHelper(context);

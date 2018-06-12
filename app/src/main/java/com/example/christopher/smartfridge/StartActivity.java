@@ -1,3 +1,6 @@
+/*
+ ** Erstellt von Christopher Schwandt, Anna Rochow, Jennifer Tönjes und Alina Pohl der SMIB
+ */
 
 package com.example.christopher.smartfridge;
 
@@ -30,6 +33,10 @@ public class StartActivity extends AppCompatActivity {
         if(shouldAskPermissions()) {
             askPermissions();
         }
+        setupPage();
+    }
+
+    private void setupPage() {
         findViewById(R.id.imageView).setOnTouchListener(new OnSwipeTouchListener(this));
         RotateAnimation rotate = new RotateAnimation(0, 720, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setInterpolator(new LinearInterpolator());
@@ -39,7 +46,6 @@ public class StartActivity extends AppCompatActivity {
         set.addAnimation(rotate);
         set.addAnimation(translate);
         set.setDuration(1500);
-
         image.startAnimation(set);
     }
 
@@ -48,33 +54,30 @@ public class StartActivity extends AppCompatActivity {
     public class OnSwipeTouchListener implements View.OnTouchListener {
 
         private final GestureDetector gestureDetector;
-        Button start = findViewById(R.id.startbutton);
-
+        final Button start = findViewById(R.id.startbutton);
 
         public OnSwipeTouchListener(Context context) {
             gestureDetector = new GestureDetector(context, new GestureListener());
         }
 
+        //setzt Animation und Werte, wenn nach Links gewischt wird
         public void onSwipeLeft() {
             start.setVisibility(View.INVISIBLE);
-
             FloatingActionButton exit = findViewById(R.id.exitFab);
             exit.setVisibility(View.VISIBLE);
-
             ImageView imageView = findViewById(R.id.imageView);
             imageView.setImageResource(R.drawable.kuehlzu);
         }
 
+        //setzt Animation und Werte, wenn nach Rechts gewischt wird
         public void onSwipeRight() {
             start.setVisibility(View.VISIBLE);
             RotateAnimation rotate = new RotateAnimation(180, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
             rotate.setInterpolator(new LinearInterpolator());
             rotate.setDuration(250);
             start.startAnimation(rotate);
-
             FloatingActionButton exit = findViewById(R.id.exitFab);
             exit.setVisibility(View.INVISIBLE);
-
             ImageView imageView = findViewById(R.id.imageView);
             imageView.setImageResource(R.drawable.kuehlauf);
         }
@@ -85,7 +88,6 @@ public class StartActivity extends AppCompatActivity {
         }
 
         private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
-
             private static final int SWIPE_DISTANCE_THRESHOLD = 100;
             private static final int SWIPE_VELOCITY_THRESHOLD = 100;
 
@@ -119,12 +121,12 @@ public class StartActivity extends AppCompatActivity {
         finish();
     }
 
-    protected boolean shouldAskPermissions() {      //Quelle: https://stackoverflow.com/questions/8854359/exception-open-failed-eacces-permission-denied-on-android
+    private boolean shouldAskPermissions() {      //Quelle: https://stackoverflow.com/questions/8854359/exception-open-failed-eacces-permission-denied-on-android
         return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
     }
 
     @TargetApi(23)
-    protected void askPermissions() {       //Quelle: https://stackoverflow.com/questions/8854359/exception-open-failed-eacces-permission-denied-on-android
+    private void askPermissions() {       //Quelle: https://stackoverflow.com/questions/8854359/exception-open-failed-eacces-permission-denied-on-android
         String[] permissions = {
                 "android.permission.CAMERA",
                 "android.permission.READ_EXTERNAL_STORAGE",

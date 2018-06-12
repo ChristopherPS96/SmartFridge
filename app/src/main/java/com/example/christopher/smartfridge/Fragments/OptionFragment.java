@@ -1,3 +1,7 @@
+/*
+ ** Erstellt von Christopher Schwandt, Anna Rochow, Jennifer Tönjes und Alina Pohl der SMIB
+ */
+
 package com.example.christopher.smartfridge.Fragments;
 
 import android.content.ClipData;
@@ -20,23 +24,20 @@ import com.example.christopher.smartfridge.SettingsItem;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class OptionFragment extends Fragment {
     private Switch autofocus;
     private Switch notifications;
     private Switch lightning;
 
+    //gibt neue Instance vom Optionsfragment zurück
     public static OptionFragment newInstance(String text) {
         OptionFragment optionFragment = new OptionFragment();
         Bundle bundle = new Bundle();
         bundle.putString("msg", text);
         optionFragment.setArguments(bundle);
         return optionFragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -66,18 +67,18 @@ public class OptionFragment extends Fragment {
         return view;
     }
 
-    public void copyBestand() {
+    //kopiert den Bestand, wenn vorhanden, in den Clipboard
+    private void copyBestand() {
         OrmDataHelper ormDataHelper = new OrmDataHelper(getActivity());
         if(ormDataHelper.getAllBestandItem() != null && ormDataHelper.getAllBestandItem().size() > 0) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("Kühlschrankinhalt: \n");
             for(BestandItem e : ormDataHelper.getAllBestandItem()) {
-                stringBuilder.append(e.getAmount() + " Mal " + e.getScanItem().getName() + ", welches am "
-                        + e.getAblaufDatum().get(Calendar.DAY_OF_MONTH) + "." + (e.getAblaufDatum().get(Calendar.MONTH) + 1) + "." + e.getAblaufDatum().get(Calendar.YEAR) + " abläuft! \n");
+                stringBuilder.append(e.getAmount()).append(" Mal ").append(e.getScanItem().getName()).append(", welches am ").append(e.getAblaufDatum().get(Calendar.DAY_OF_MONTH)).append(".").append(e.getAblaufDatum().get(Calendar.MONTH) + 1).append(".").append(e.getAblaufDatum().get(Calendar.YEAR)).append(" abläuft! \n");
             }
-            ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipboardManager clipboard = (ClipboardManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("Kühlschrankbestand", stringBuilder.toString());
-            clipboard.setPrimaryClip(clip);
+            Objects.requireNonNull(clipboard).setPrimaryClip(clip);
             Toast.makeText(getActivity(), "Inhalt wurde kopiert", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), "Bestand ist leer!", Toast.LENGTH_LONG).show();
@@ -98,6 +99,7 @@ public class OptionFragment extends Fragment {
         helper.saveSettingItem(settingsItem);
     }
 
+    //setzt die alten Settings, wenn vorhanden, ansonsten alles false
     private void setOldSettings(){
         OrmDataHelper helper = new OrmDataHelper(getActivity());
         if(helper.getSettingItem()!= null && helper.getSettingItem().size() > 0){

@@ -1,3 +1,7 @@
+/*
+ ** Erstellt von Christopher Schwandt, Anna Rochow, Jennifer Tönjes und Alina Pohl der SMIB
+ */
+
 package com.example.christopher.smartfridge;
 
 import android.os.Bundle;
@@ -16,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
         setupViewPage();
     }
 
-    public void setupViewPage() {
+    //setzt die ViewPager und das TabLayout der App
+    private void setupViewPage() {
         MyPageAdapter adapter = new MyPageAdapter(getSupportFragmentManager());
         myPager = findViewById(R.id.pager);
         myPager.setAdapter(adapter);
@@ -25,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(myPager);
     }
 
+    //geht die einzelnen Tabs entlang + Startseite, bevor App gelöscht wird
     @Override
     public void onBackPressed() {
         if(myPager.getCurrentItem() == 0) {
