@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.christopher.smartfridge">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/fridge_icon"
+        android:label="SmartFridge"
+        android:roundIcon="@mipmap/fridge_icon_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.example.christopher.smartfridge.StartActivity"
+            android:label="SmartFridge"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.example.christopher.smartfridge.MainActivity"
+            android:label="SmartFridge">
+        </activity>
+        <activity android:name="com.example.christopher.smartfridge.DialogBuilder"
+            android:label="SmartFridge">
+        </activity>
+        <receiver
+            android:name=".NotificationReceiver">
+        </receiver>
+    </application>
+
+
+</manifest>

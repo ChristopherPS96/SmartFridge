@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="49dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:paddingLeft="10dp"
+        tools:ignore="RtlHardcoded,RtlSymmetry"
+        android:text="@string/barcode_scanner_einstellungen"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="33dp">
+
+        <TextView
+            android:layout_width="384dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
+            android:text="@string/autofocus"
+            android:textColor="@android:color/black"
+            android:textSize="22sp" />
+
+        <Switch
+            android:id="@+id/autofocus"
+            android:layout_width="55dp"
+            android:layout_height="match_parent" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="33dp">
+
+        <TextView
+            android:layout_width="384dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
+            android:text="@string/blitz"
+            android:textColor="@android:color/black"
+            android:textSize="22sp" />
+
+        <Switch
+            android:id="@+id/lightning"
+            android:layout_width="55dp"
+            android:layout_height="match_parent" />
+    </TableRow>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/benachrichtigungseinstellungen"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="33dp">
+
+        <TextView
+            android:layout_width="384dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
+            android:text="@string/notifications"
+            android:textColor="@android:color/black"
+            android:textSize="22sp" />
+
+        <Switch
+            android:id="@+id/notifications"
+            android:layout_width="55dp"
+            android:layout_height="match_parent" />
+    </TableRow>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="5dp"
+        tools:ignore="RtlHardcoded,RtlSymmetry">
+
+        <Button
+            android:id="@+id/bestandCopy"
+            android:layout_width="232dp"
+            android:layout_height="match_parent"
+            android:text="@string/bestand_kopieren"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/saveSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/einstellungen_speichern"
+            tools:ignore="ButtonStyle" />
+
+    </TableRow>
+
+
+</LinearLayout>

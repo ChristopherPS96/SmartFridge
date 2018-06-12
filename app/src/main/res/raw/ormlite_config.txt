@@ -1,0 +1,62 @@
+#
+# generated on 2018/06/06 10:38:14
+#
+# --table-start--
+dataClass=com.example.christopher.smartfridge.BestandItem
+tableName=bestandItem
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=scanItem
+foreign=true
+foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
+foreignAutoCreate=true
+# --field-end--
+# --field-start--
+fieldName=ablaufDatum
+dataPersister=SERIALIZABLE
+# --field-end--
+# --field-start--
+fieldName=amount
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.example.christopher.smartfridge.ScanItem
+tableName=scanItem
+# --table-fields-start--
+# --field-start--
+fieldName=barcode
+id=true
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.example.christopher.smartfridge.SettingsItem
+tableName=settingItem
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=autofocus
+# --field-end--
+# --field-start--
+fieldName=lightning
+# --field-end--
+# --field-start--
+fieldName=notifications
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

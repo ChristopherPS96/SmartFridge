@@ -1,0 +1,21 @@
+<resources>
+    <string name="Fridge">Fridge</string>
+    <string name="start">Start</string>
+    <string name="benachrichtigungseinstellungen">Benachrichtigungseinstellungen</string>
+    <string name="notifications">Notifications</string>
+    <string name="barcode_scanner_einstellungen">Barcode-Scanner Einstellungen</string>
+    <string name="createNewBestand">Wie viele haben sie?</string>
+    <string name="createNewBestandExist">Wie viel mehr haben sie gekauft?</string>
+    <string name="editBestandItem">Menge ändern:</string>
+    <string name="editScanBarcode">Barcode: %1$s</string>
+    <string name="amountBestandItem">Anzahl: %1$dx</string>
+    <string name="ablaufDatumBestandItem">Ablaufdatum: %1$d.%2$d.%3$d</string>
+    <string name="bestand_kopieren">Bestand kopieren</string>
+    <string name="einstellungen_speichern">Einstellungen speichern</string>
+    <string name="blitz">Blitz</string>
+    <string name="autofocus">AutoFocus</string>
+    <string name="name">name</string>
+    <string name="amount">amount</string>
+    <string name="barcode">barcode</string>
+    <string name="ablaufdatum">ablaufdatum</string>
+</resources>
